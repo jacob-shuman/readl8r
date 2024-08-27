@@ -1,0 +1,9 @@
+services:
+  readl8r:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      SECURE: false
+    ports:
+      - 8080:5173
