@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/private';
 import { type ArticleData } from '@extractus/article-extractor';
 import BetterSqlite3 from 'better-sqlite3';
+import { mkdirSync } from 'node:fs';
 import RSS from 'rss';
 
 export interface FeedItem {
@@ -16,7 +17,9 @@ export interface FeedItem {
 const baseUrl = `${env.SECURE ? 'https' : 'http'}://${env.HOST}:${env.PORT}`;
 
 export function recreateDb(): BetterSqlite3.Database {
-	const db = BetterSqlite3('local.sqlite');
+	mkdirSync('./data', { recursive: true });
+
+	const db = BetterSqlite3('data/local.sqlite');
 
 	db.prepare(
 		`

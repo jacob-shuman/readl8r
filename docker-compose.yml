@@ -1,9 +1,11 @@
 services:
   readl8r:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: jacobshuman/readl8r:latest
+    container_name: readl8r
+    restart: unless-stopped
+    volumes:
+      - ./data:data
     environment:
       SECURE: false
     ports:
-      - 8080:5173
+      - 8080:80

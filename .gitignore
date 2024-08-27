@@ -1,6 +1,6 @@
 node_modules
 .env
-local.sqlite
+/data
 
 # Output
 .output
