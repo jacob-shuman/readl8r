@@ -1,10 +1,11 @@
 services:
   readl8r:
+    platform: linux/amd64
     image: jacobshuman/readl8r:latest
     container_name: readl8r
     restart: unless-stopped
     volumes:
-      - ./data:/data
+      - ./data:/app/data
     environment:
       SECURE: false
     ports:
