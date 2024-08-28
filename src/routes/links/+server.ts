@@ -16,6 +16,9 @@ export const GET: RequestHandler = async () => {
 	const links = db.prepare('SELECT * FROM links').all();
 
 	return new Response(JSON.stringify(links), {
+		headers: {
+			'Content-Type': 'application/json'
+		},
 		status: 200,
 		statusText: 'link added successfully'
 	});
