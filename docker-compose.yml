@@ -4,7 +4,7 @@ services:
     container_name: readl8r
     restart: unless-stopped
     volumes:
-      - ./data:data
+      - ./data:/data
     environment:
       SECURE: false
     ports:

@@ -17,10 +17,10 @@ ENV HOST=0.0.0.0
 ENV PORT=80
 ENV LANGUAGE="en"
 
-COPY --from=build /app/build /
-WORKDIR /
+COPY --from=build /app /app
+WORKDIR /app
 
-HEALTHCHECK --interval=1s --timeout=1s --start-period=1s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=1s --retries=3 \
+    CMD wget --spider --timeout=1 http://${HOST}:${PORT}/health || exit 1
 
-CMD node .
+CMD node build
