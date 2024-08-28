@@ -20,6 +20,8 @@ ENV LANGUAGE="en"
 COPY --from=build /app /app
 WORKDIR /app
 
+RUN mkdir data
+
 HEALTHCHECK --interval=30s --timeout=10s --start-period=1s --retries=3 \
     CMD wget --spider --timeout=1 http://${HOST}:${PORT}/health || exit 1
 
