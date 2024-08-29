@@ -44,12 +44,12 @@ export function generateFeed(items: FeedItem[]) {
 		description: env.FEED_DESCRIPTION,
 		id: baseUrl,
 		link: baseUrl,
-		language: 'en', // optional, used only in RSS 2.0, possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+		language: 'en',
 		image: `${baseUrl}/image.png`,
 		favicon: `${baseUrl}/favicon.ico`,
 		copyright: env.COPYRIGHT ?? 'No copyright notice',
-		// updated: new Date(2013, 6, 14), // optional, default = today
-		generator: 'readl8r', // optional, default = 'Feed for Node.js'
+		updated: new Date(),
+		generator: 'readl8r',
 		feedLinks: {
 			json: `${baseUrl}/json`,
 			atom: `${baseUrl}/atom`,
