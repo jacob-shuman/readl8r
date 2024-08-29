@@ -2,7 +2,7 @@ import { generateFeed, getLinks } from '$lib/rss';
 import { type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async () => {
-	return new Response(generateFeed(getLinks()), {
+	return new Response(generateFeed(getLinks()).rss2(), {
 		headers: {
 			'Content-Type': 'application/rss+xml'
 		},

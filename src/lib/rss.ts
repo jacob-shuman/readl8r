@@ -1,8 +1,8 @@
 import { env } from '$env/dynamic/private';
 import { type ArticleData } from '@extractus/article-extractor';
 import BetterSqlite3 from 'better-sqlite3';
+import { Feed } from 'feed';
 import { mkdirSync } from 'node:fs';
-import RSS from 'rss';
 
 export interface FeedItem {
 	id: number;
@@ -39,94 +39,117 @@ export function recreateDb(): BetterSqlite3.Database {
 }
 
 export function generateFeed(items: FeedItem[]) {
-	const feed = new RSS({
+	const feed = new Feed({
 		title: env.FEED_TITLE ?? 'readl8r RSS Feed',
 		description: env.FEED_DESCRIPTION,
-		feed_url: `${baseUrl}/rss`,
-		site_url: `${baseUrl}`,
-		pubDate: new Date(),
-		language: env.LANGUAGE ?? 'en'
-		// 	image_url: 'http://example.com/icon.png',
-		// 	docs: 'http://example.com/rss/docs.html',
-		// 	managingEditor: 'Dylan Greene',
-		// 	webMaster: 'Dylan Greene',
-		// 	copyright: '2013 Dylan Greene',
-		// 	categories: ['Category 1', 'Category 2', 'Category 3'],
-		// 	ttl: 60,
-		// 	custom_namespaces: {
-		// 		itunes: 'http://www.itunes.com/dtds/podcast-1.0.dtd'
-		// 	},
-		// 	custom_elements: [
-		// 		{ 'itunes:subtitle': 'A show about everything' },
-		// 		{ 'itunes:author': 'John Doe' },
-		// 		{
-		// 			'itunes:summary':
-		// 				'All About Everything is a show about everything. Each week we dive into any subject known to man and talk about it as much as we can. Look for our podcast in the Podcasts app or in the iTunes Store'
-		// 		},
-		// 		{ 'itunes:owner': [{ 'itunes:name': 'John Doe' }, { 'itunes:email': 'john.doe@example.com' }] },
-		// 		{
-		// 			'itunes:image': {
-		// 				_attr: {
-		// 					href: 'http://example.com/podcasts/everything/AllAboutEverything.jpg'
-		// 				}
-		// 			}
-		// 		},
-		// 		{
-		// 			'itunes:category': [
-		// 				{
-		// 					_attr: {
-		// 						text: 'Technology'
-		// 					}
-		// 				},
-		// 				{
-		// 					'itunes:category': {
-		// 						_attr: {
-		// 							text: 'Gadgets'
-		// 						}
-		// 					}
-		// 				}
-		// 			]
-		// 		}
-		// 	]
-		// });
-
-		// /* loop over data and add to feed */
-		// feed.item({
-		// 	title: 'item title',
-		// 	description: 'use this for the content. It can include html.',
-		// 	url: 'http://example.com/article4?this&that', // link to the item
-		// 	guid: '1123', // optional - defaults to url
-		// 	categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
-		// 	author: 'Guest Author', // optional - defaults to feed author property
-		// 	date: 'May 27, 2012', // any format that js Date can parse.
-		// 	lat: 33.417974, //optional latitude field for GeoRSS
-		// 	long: -111.933231, //optional longitude field for GeoRSS
-		// 	enclosure: { url: '...', file: 'path-to-file' }, // optional enclosure
-		// 	custom_elements: [
-		// 		{ 'itunes:author': 'John Doe' },
-		// 		{ 'itunes:subtitle': 'A short primer on table spices' },
-		// 		{
-		// 			'itunes:image': {
-		// 				_attr: {
-		// 					href: 'http://example.com/podcasts/everything/AllAboutEverything/Episode1.jpg'
-		// 				}
-		// 			}
-		// 		},
-		// 		{ 'itunes:duration': '7:04' }
-		// 	]
+		id: baseUrl,
+		link: baseUrl,
+		language: 'en', // optional, used only in RSS 2.0, possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+		image: `${baseUrl}/image.png`,
+		favicon: `${baseUrl}/favicon.ico`,
+		copyright: env.COPYRIGHT ?? 'No copyright notice',
+		// updated: new Date(2013, 6, 14), // optional, default = today
+		generator: 'readl8r', // optional, default = 'Feed for Node.js'
+		feedLinks: {
+			json: `${baseUrl}/json`,
+			atom: `${baseUrl}/atom`,
+			rss: `${baseUrl}/rss`
+		}
+		// author: {
+		//   name: "John Doe",
+		//   email: "johndoe@example.com",
+		//   link: "https://example.com/johndoe"
+		// }
 	});
+	// const feed = new RSS({
+	// 	title: env.FEED_TITLE ?? 'readl8r RSS Feed',
+	// 	description: env.FEED_DESCRIPTION,
+	// 	feed_url: `${baseUrl}/rss`,
+	// 	site_url: `${baseUrl}`,
+	// 	pubDate: new Date(),
+	// 	language: env.LANGUAGE ?? 'en'
+
+	// 	image_url: 'http://example.com/icon.png',
+	// 	docs: 'http://example.com/rss/docs.html',
+	// 	managingEditor: 'Dylan Greene',
+	// 	webMaster: 'Dylan Greene',
+	// 	copyright: '2013 Dylan Greene',
+	// 	categories: ['Category 1', 'Category 2', 'Category 3'],
+	// 	ttl: 60,
+	// 	custom_namespaces: {
+	// 		itunes: 'http://www.itunes.com/dtds/podcast-1.0.dtd'
+	// 	},
+	// 	custom_elements: [
+	// 		{ 'itunes:subtitle': 'A show about everything' },
+	// 		{ 'itunes:author': 'John Doe' },
+	// 		{
+	// 			'itunes:summary':
+	// 				'All About Everything is a show about everything. Each week we dive into any subject known to man and talk about it as much as we can. Look for our podcast in the Podcasts app or in the iTunes Store'
+	// 		},
+	// 		{ 'itunes:owner': [{ 'itunes:name': 'John Doe' }, { 'itunes:email': 'john.doe@example.com' }] },
+	// 		{
+	// 			'itunes:image': {
+	// 				_attr: {
+	// 					href: 'http://example.com/podcasts/everything/AllAboutEverything.jpg'
+	// 				}
+	// 			}
+	// 		},
+	// 		{
+	// 			'itunes:category': [
+	// 				{
+	// 					_attr: {
+	// 						text: 'Technology'
+	// 					}
+	// 				},
+	// 				{
+	// 					'itunes:category': {
+	// 						_attr: {
+	// 							text: 'Gadgets'
+	// 						}
+	// 					}
+	// 				}
+	// 			]
+	// 		}
+	// 	]
+	// });
+
+	// /* loop over data and add to feed */
+	// feed.item({
+	// 	title: 'item title',
+	// 	description: 'use this for the content. It can include html.',
+	// 	url: 'http://example.com/article4?this&that', // link to the item
+	// 	guid: '1123', // optional - defaults to url
+	// 	categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
+	// 	author: 'Guest Author', // optional - defaults to feed author property
+	// 	date: 'May 27, 2012', // any format that js Date can parse.
+	// 	lat: 33.417974, //optional latitude field for GeoRSS
+	// 	long: -111.933231, //optional longitude field for GeoRSS
+	// 	enclosure: { url: '...', file: 'path-to-file' }, // optional enclosure
+	// 	custom_elements: [
+	// 		{ 'itunes:author': 'John Doe' },
+	// 		{ 'itunes:subtitle': 'A short primer on table spices' },
+	// 		{
+	// 			'itunes:image': {
+	// 				_attr: {
+	// 					href: 'http://example.com/podcasts/everything/AllAboutEverything/Episode1.jpg'
+	// 				}
+	// 			}
+	// 		},
+	// 		{ 'itunes:duration': '7:04' }
+	// 	]
+	// });
 
 	for (let item of items) {
-		feed.item({
+		feed.addItem({
 			title: item.title ?? 'No title',
 			description: item.description ?? 'No description',
-			url: item.url,
-			date: item.date ?? new Date(),
-			custom_elements: item.content ? [{ 'content:encoded': item.content }] : undefined
+			link: item.url,
+			date: item.date ? new Date(item.date) : new Date(),
+			content: item.content
 		});
 	}
 
-	return feed.xml({ indent: true });
+	return feed;
 }
 
 export function getLinks(): FeedItem[] {
