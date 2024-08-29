@@ -54,12 +54,12 @@ export function generateFeed(items: FeedItem[]) {
 			json: `${baseUrl}/json`,
 			atom: `${baseUrl}/atom`,
 			rss: `${baseUrl}/rss`
+		},
+		author: {
+			name: env.AUTHOR_NAME,
+			email: env.AUTHOR_EMAIL,
+			link: env.AUTHOR_LINK
 		}
-		// author: {
-		//   name: "John Doe",
-		//   email: "johndoe@example.com",
-		//   link: "https://example.com/johndoe"
-		// }
 	});
 	// const feed = new RSS({
 	// 	title: env.FEED_TITLE ?? 'readl8r RSS Feed',
