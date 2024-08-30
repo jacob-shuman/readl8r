@@ -1,38 +1,52 @@
-# create-svelte
+# readl8r
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+> A _**R**eally **S**imple_ FOSS read later _**S**ervice_ that serves an [RSS](https://www.rssboard.org/rss-specification) feed of all your articles.
 
-## Creating a project
+## TL;DR
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [Retrieve a `JSON` list of articles](#get-a-list-of-articles) by making a `GET` request to `/articles`.
+- [Add an article](#post-an-article) by making a `POST` request (with `url` in a `JSON` body) to `/articles/add`.
+- All articles are stored in a `/data/local.sqlite` SQLite database.
+- [Atom](https://validator.w3.org/feed/docs/atom.html) and [JSON Feed](https://www.jsonfeed.org/) formats are also available at `/atom` and `/json` respectively.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## GET a list of articles
 
-# create a new project in my-app
-npm create svelte@latest my-app
+You can get a `JSON` list of articles by making a `GET` request to the `/articles` route:
+
+`GET (http|https)://YOUR_URL/articles`
+
+## POST an article
+
+You can add an article by providing the article's url in the body of a `POST` request:
+
+`POST (http|https)://YOUR_URL/articles/add`
+
+### body
+
+```json
+{
+	// required
+	"url": "ARTICLE_URL",
+
+	// optional
+	"title": "WTF is a GitHub Profile README.md",
+	"description": "",
+	"author": "Jacob Shuman",
+	"content": "",
+	"date": ""
+}
 ```
 
-## Developing
+### Possible Responses
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+#### 200 - "article added successfully"
 
-```bash
-npm run dev
+Article was added to the SQLite database successfully.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+#### 400 - "url is required"
 
-## Building
+The url was not found in the body of the request.
 
-To create a production version of your app:
+#### Unable to extract metadata at url (400)
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+There was an issue extracting the article metadata automatically. The article was **not** added to the SQLite database.
