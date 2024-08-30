@@ -1,8 +1,11 @@
-import { generateFeed, getArticles } from '$lib/feed';
+import { recreateDb } from '$lib/feed';
 import { type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async () => {
-	return new Response(generateFeed(getArticles()).json1(), {
+	const db = recreateDb();
+	const articles = db.prepare('SELECT * FROM articles').all();
+
+	return new Response(JSON.stringify(articles), {
 		headers: {
 			'Content-Type': 'application/json'
 		},

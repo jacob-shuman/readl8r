@@ -1,4 +1,4 @@
-import { recreateDb } from '$lib/rss';
+import { recreateDb } from '$lib/feed';
 import { extract } from '@extractus/article-extractor';
 import { type RequestHandler } from '@sveltejs/kit';
 
@@ -16,7 +16,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	if (article) {
 		const { lastInsertRowid } = db
 			.prepare(
-				'INSERT INTO links (url, title, description, content, author, date) VALUES (@url, @title, @description, @content, @author, @date)'
+				'INSERT INTO articles (url, title, description, content, author, date) VALUES (@url, @title, @description, @content, @author, @date)'
 			)
 			.run({
 				url,
@@ -24,7 +24,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				description: article.description ?? article.content?.slice(0, 200) + '...',
 				content: article.content,
 				author: article.author,
-				date: article.published
+				date: article.published ?? new Date().toDateString()
 			});
 
 		return new Response(JSON.stringify({ id: lastInsertRowid, url }), {
