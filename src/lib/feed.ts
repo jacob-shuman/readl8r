@@ -38,16 +38,16 @@ export function recreateDb(): BetterSqlite3.Database {
 	return db;
 }
 
-export function generateFeed(items: FeedItem[]) {
+export function generateFeed(items: FeedItem[]): Feed {
 	const feed = new Feed({
 		title: env.FEED_TITLE ?? 'readl8r',
 		description: env.FEED_DESCRIPTION,
 		id: baseUrl,
 		link: baseUrl,
 		language: 'en',
-		image: env.IMAGE ? `${baseUrl}/${env.IMAGE}` : undefined,
-		favicon: env.FAVICON ? `${baseUrl}/${env.FAVICON}` : undefined,
-		copyright: env.COPYRIGHT ?? 'No copyright notice',
+		image: env.FEED_IMAGE ? `${baseUrl}/${env.FEED_IMAGE}` : undefined,
+		favicon: env.FEED_FAVICON ? `${baseUrl}/${env.FEED_FAVICON}` : undefined,
+		copyright: env.FEED_COPYRIGHT ?? 'No copyright notice',
 		updated: new Date(),
 		generator: 'readl8r',
 		feedLinks: {
@@ -82,4 +82,69 @@ export function getArticles(): FeedItem[] {
 	const articles = db.prepare('SELECT * FROM articles').all() as unknown as FeedItem[];
 
 	return articles;
+}
+
+const adjectives: string[] = [
+	// goofy
+	'Witty',
+	'Quirky',
+	'Silly',
+	'Goofy',
+	'Zany',
+	'Whimsical',
+	'Laughable',
+	'Chuckling',
+	'Nonsense',
+	'Absurd'
+];
+const nouns: string[] = [
+	// formal
+	'Daily',
+	'Weekly',
+	'Monthly',
+	'York',
+	'City',
+	'Urban',
+	'Coastal',
+	'National',
+	'Global',
+	'Central',
+
+	// goofy
+	'Pickle',
+	'Banana',
+	'Squirrel',
+	'Tater Tot',
+	'Llama',
+	'Chicken',
+	'Potato',
+	'Unicorn',
+	'Jellybean'
+];
+const publications: string[] = [
+	'Press',
+	'Bulletin',
+	'Gazette',
+	'Times',
+	'Ledger',
+	'Chirp',
+	'Report',
+	'Update',
+	'Journal',
+	'Herald',
+	'Tribune',
+	'Chronicles',
+	'Observer',
+	'Review',
+	'Express',
+	'Post'
+];
+
+export function generateFeedTitle(): string {
+	const adjective =
+		Math.random() < 0.5 ? `${adjectives[Math.floor(Math.random() * adjectives.length)]} ` : '';
+	const noun = nouns[Math.floor(Math.random() * nouns.length)];
+	const publication = publications[Math.floor(Math.random() * publications.length)];
+
+	return `The ${adjective}${noun} ${publication}`;
 }

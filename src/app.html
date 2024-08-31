@@ -2,11 +2,21 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link href="%sveltekit.assets%/favicon-dark.svg" type="image/svg+xml" rel="icon" />
+		<link
+			href="%sveltekit.assets%/favicon-light.svg"
+			type="image/svg+xml"
+			rel="icon"
+			media="(prefers-color-scheme: light)"
+		/>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
+
+	<body
+		data-sveltekit-preload-data="hover"
+		class="dark:bg-blacker font-body selection:bg-highlight/50 flex flex-col items-center justify-center bg-white text-black duration-100 ease-out motion-safe:transition-all sm:px-8 sm:py-4 dark:text-white"
+	>
+		<main class="w-full max-w-7xl">%sveltekit.body%</main>
 	</body>
 </html>

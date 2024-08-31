@@ -1,3 +1,4 @@
+import { isAuthorized } from '$lib/auth';
 import { recreateDb } from '$lib/feed';
 import { extract } from '@extractus/article-extractor';
 import { type RequestHandler } from '@sveltejs/kit';
@@ -5,7 +6,9 @@ import { type RequestHandler } from '@sveltejs/kit';
 export const POST: RequestHandler = async ({ request }) => {
 	const { url } = await request.json();
 
-	if (!url) {
+	if (!isAuthorized(request)) {
+		return new Response(undefined, { status: 401, statusText: 'Missing bearer token' });
+	} else if (!url) {
 		return new Response(undefined, { status: 400, statusText: 'url is required' });
 	}
 
@@ -21,10 +24,10 @@ export const POST: RequestHandler = async ({ request }) => {
 			.run({
 				url,
 				title: article.title,
-				description: article.description ?? article.content?.slice(0, 200) + '...',
+				description: article.description?.slice(0, 200) ?? article.content?.slice(0, 200) + '...',
 				content: article.content,
 				author: article.author,
-				date: article.published ?? new Date().toDateString()
+				date: article.published ?? new Date().toString()
 			});
 
 		return new Response(JSON.stringify({ id: lastInsertRowid, url }), {

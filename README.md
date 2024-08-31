@@ -58,9 +58,11 @@ There was an issue extracting the article metadata automatically. The article wa
 ## Endpoints
 
 ### /rss (GET)
+
 Content-Type - application/xml+rss
 
 aliases
+
 - /rss.xml
 - /feed
 - /feed.xml
@@ -76,6 +78,7 @@ aliases
 ### /json (GET)
 
 ### /articles (GET)
+
 Returns a JSON array of all articles in your reading list. Objects are FeedItems.
 
 ### /articles/add (POST)
