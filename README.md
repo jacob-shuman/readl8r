@@ -20,7 +20,7 @@
 	<img alt="home page screenshot" src="./screenshots/home-light.jpeg"  />
 </picture>
 
-## Authentication
+## :lock: Authentication
 
 You can **optionally** protect your reading list with a password by setting a `PASSWORD` env variable in your compose config. This will protect all routes (except for feeds ie `/rss`, `/atom`, etc. **working on a better solution to this**).
 
@@ -75,6 +75,7 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 **Requires Authentication**
 
 `Content-Type: application/xml+rss`
+
 `POST (http|https)://HOST:PORT/articles/clear`
 
 ### Responses
