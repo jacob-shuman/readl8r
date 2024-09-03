@@ -1,33 +1,31 @@
+<picture>
+	<source media="(prefers-color-scheme: dark)" srcset="./static/favicon-light.svg" />
+	<img alt="header" src="./static/favicon-dark.svg" width="128px" />
+</picture>
+
 # readl8r
 
 > A _**R**eally **S**imple_ FOSS read later _**S**ervice_ that serves an [RSS](https://www.rssboard.org/rss-specification) feed of all your articles.
 
-## TL;DR
+## :star: Features
 
-- [Retrieve a `JSON` list of articles](#get-a-list-of-articles) by making a `GET` request to `/articles`.
-- [Add an article](#post-an-article) by making a `POST` request (with `url` in a `JSON` body) to `/articles/add`.
-- All articles are stored in a `/data/local.sqlite` SQLite database.
-- [Atom](https://validator.w3.org/feed/docs/atom.html) and [JSON Feed](https://www.jsonfeed.org/) formats are also available at `/atom` and `/json` respectively.
+- :heavy_plus_sign: [Add an article](#add-an-article) by making a `POST` request (with `url` in a `JSON` body) to `/articles/add`.
+- :clipboard: [Get a `JSON` array of articles](#get-a-json-array-of-articles) by making a `GET` request to `/articles`.
+- :no_entry_sign: [Remove all articles](#remove-all-articles) by making a `POST` request to `/articles/clear`.
+- :file_cabinet: All articles are stored in a `/data/local.sqlite` SQLite database.
+- :inbox_tray: Get an [RSS](https://www.rssboard.org/rss-specification), [Atom](https://validator.w3.org/feed/docs/atom.html), or [JSON](https://www.jsonfeed.org/) feed of articles at [`/rss`](#generate-rss2-feed-from-articles), [`/atom`](#generate-atom-feed-from-articles), or [`/json`](#generate-json-feed-from-articles) respectively.
 
-## GET a list of articles
+## Add an article
 
-You can get a `JSON` list of articles by making a `GET` request to the `/articles` route:
-
-`GET (http|https)://YOUR_URL/articles`
-
-### Possible Responses
-
-#### 200 -
-
-## POST an article
+**Requires Authentication**
 
 You can add an article by providing the article's url in the body of a `POST` request:
 
-`POST (http|https)://YOUR_URL/articles/add`
+`POST (http|https)://HOST:PORT/articles/add`
 
 ### body
 
-```json
+```jsonc
 {
 	// required
 	"url": "https://dev.to/jacobshuman/wtf-is-a-github-profile-readmemd-1p8c",
@@ -41,44 +39,73 @@ You can add an article by providing the article's url in the body of a `POST` re
 }
 ```
 
-### Possible Responses
+### Responses
 
-#### 200 - "article added successfully"
+| Status | StatusText                               | Body        | Content-Type       |
+| ------ | ---------------------------------------- | ----------- | ------------------ |
+| 200    | `article added successfully`             | `undefined` | `application/json` |
+| 400    | `url is required`                        | `undefined` | `undefined`        |
+| 400    | `Unable to extract metadata at "${url}"` | `undefined` | `undefined`        |
 
-Article was added to the SQLite database successfully.
+## Get a `JSON` array of articles
 
-#### 400 - "url is required"
+**Requires Authentication**
 
-The url was not found in the body of the request.
+You can get a `JSON` array of articles by making a `GET` request to the `/articles` route:
 
-#### 400 - Unable to extract metadata at url
+`GET (http|https)://HOST:PORT/articles`
 
-There was an issue extracting the article metadata automatically. The article was **not** added to the SQLite database.
+### Responses
 
-## Endpoints
+| Status | StatusText  | Body         | Content-Type       |
+| ------ | ----------- | ------------ | ------------------ |
+| 200    | `undefined` | `FeedItem[]` | `application/json` |
 
-### /rss (GET)
+## Remove all articles
 
-Content-Type - application/xml+rss
+**Requires Authentication**
 
-aliases
+`Content-Type: application/xml+rss`
+`POST (http|https)://HOST:PORT/articles/clear`
 
-- /rss.xml
-- /feed
-- /feed.xml
+### Responses
 
-#### Possible Responses
+| Status | StatusText                      | Body        | Content-Type |
+| ------ | ------------------------------- | ----------- | ------------ |
+| 200    | `articles cleared successfully` | `undefined` | `undefined`  |
 
-##### 200
+## Generate RSS2 feed from articles
 
-##### 400
+`GET (http|https)://HOST:PORT/rss`
 
-### /atom (GET
+`GET (http|https)://HOST:PORT/rss.xml`
 
-### /json (GET)
+`GET (http|https)://HOST:PORT/feed`
 
-### /articles (GET)
+`GET (http|https)://HOST:PORT/feed.xml`
 
-Returns a JSON array of all articles in your reading list. Objects are FeedItems.
+### Responses
 
-### /articles/add (POST)
+| Status | StatusText  | Body     | Content-Type          |
+| ------ | ----------- | -------- | --------------------- |
+| 200    | `undefined` | RSS Feed | `application/rss+xml` |
+
+## Generate Atom feed from articles
+
+`GET (http|https)://HOST:PORT/atom`
+
+### Responses
+
+| Status | StatusText  | Body      | Content-Type           |
+| ------ | ----------- | --------- | ---------------------- |
+| 200    | `undefined` | Atom Feed | `application/atom+xml` |
+
+## Generate JSON feed from articles
+
+`GET (http|https)://HOST:PORT/json`
+
+### Responses
+
+| Status | StatusText  | Body      | Content-Type       |
+| ------ | ----------- | --------- | ------------------ |
+| 200    | `undefined` | JSON Feed | `application/json` |
