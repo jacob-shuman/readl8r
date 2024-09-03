@@ -24,7 +24,7 @@
 
 You can **optionally** protect your reading list with a password by setting a `PASSWORD` env variable in your compose config. This will protect all routes (except for feeds ie `/rss`, `/atom`, etc. **working on a better solution to this**).
 
-## Add an article
+## :heavy_plus_sign: Add an article
 
 **Requires Authentication**
 
@@ -56,7 +56,7 @@ You can add an article by providing the article's url in the body of a `POST` re
 | 400    | `url is required`                        | `undefined` | `undefined`        |
 | 400    | `Unable to extract metadata at "${url}"` | `undefined` | `undefined`        |
 
-## Get a `JSON` array of articles
+## :clipboard: Get a `JSON` array of articles
 
 **Requires Authentication**
 
@@ -70,7 +70,7 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 | ------ | ----------- | ------------ | ------------------ |
 | 200    | `undefined` | `FeedItem[]` | `application/json` |
 
-## Remove all articles
+## :no_entry_sign: Remove all articles
 
 **Requires Authentication**
 
@@ -83,7 +83,7 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 | ------ | ------------------------------- | ----------- | ------------ |
 | 200    | `articles cleared successfully` | `undefined` | `undefined`  |
 
-## Generate RSS2 feed from articles
+## :inbox_tray: Generate RSS2 feed from articles
 
 `GET (http|https)://HOST:PORT/rss`
 
@@ -99,7 +99,7 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 | ------ | ----------- | -------- | --------------------- |
 | 200    | `undefined` | RSS Feed | `application/rss+xml` |
 
-## Generate Atom feed from articles
+## :inbox_tray: Generate Atom feed from articles
 
 `GET (http|https)://HOST:PORT/atom`
 
@@ -109,7 +109,7 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 | ------ | ----------- | --------- | ---------------------- |
 | 200    | `undefined` | Atom Feed | `application/atom+xml` |
 
-## Generate JSON feed from articles
+## :inbox_tray: Generate JSON feed from articles
 
 `GET (http|https)://HOST:PORT/json`
 
