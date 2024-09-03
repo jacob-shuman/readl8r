@@ -1,6 +1,6 @@
 <picture>
 	<source media="(prefers-color-scheme: dark)" srcset="./static/favicon-light.svg" />
-	<img alt="header" src="./static/favicon-dark.svg" width="128px" />
+	<img alt="logo" src="./static/favicon-dark.svg" width="128px" />
 </picture>
 
 # readl8r
@@ -14,6 +14,11 @@
 - :no_entry_sign: [Remove all articles](#remove-all-articles) by making a `POST` request to `/articles/clear`.
 - :file_cabinet: All articles are stored in a `/data/local.sqlite` SQLite database.
 - :inbox_tray: Get an [RSS](https://www.rssboard.org/rss-specification), [Atom](https://validator.w3.org/feed/docs/atom.html), or [JSON](https://www.jsonfeed.org/) feed of articles at [`/rss`](#generate-rss2-feed-from-articles), [`/atom`](#generate-atom-feed-from-articles), or [`/json`](#generate-json-feed-from-articles) respectively.
+
+<picture>
+	<source media="(prefers-color-scheme: dark)" srcset="./screenshots/home-dark.jpeg" />
+	<img alt="home page screenshot" src="./screenshots/home-light.jpeg"  />
+</picture>
 
 ## Add an article
 
