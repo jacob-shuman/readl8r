@@ -31,15 +31,15 @@
 	</section>
 </header>
 
-<main
-	class="border-blacker after:bg-blacker relative gap-x-0 border-l after:absolute after:left-0 after:top-[1px] after:z-50 after:h-full after:w-[1px] sm:columns-2 xl:columns-3"
->
+<main class="gap-x-0 pb-8 sm:columns-2 xl:columns-3">
 	{#each articles as article}
 		<article
-			class="border-gray flex break-inside-avoid flex-col gap-y-2 border-b border-l p-6 dark:border-black"
+			class="border-gray hover:bg-gray -ml-[1px] flex break-inside-avoid flex-col gap-y-2 border border-t-0 p-6 duration-[25ms] ease-out motion-safe:transition-colors dark:border-black dark:hover:bg-black"
 		>
 			<div class="flex flex-col gap-y-1">
-				<h2 class="font-title text-2xl">{article.title}</h2>
+				<h2 class="font-title text-2xl hover:underline">
+					<a href={article.url}>{article.title}</a>
+				</h2>
 				<h3 class="inline-flex gap-x-1">
 					<i>{article.author || 'By some author'}</i>
 					<span>•</span>
@@ -47,13 +47,15 @@
 				</h3>
 			</div>
 
-			<p>{article.description}</p>
+			<p class="text-justify">{article.description}</p>
 
-			<a class="bold font-subtitle text-start hover:underline" href={article.url}>
-				Read more
-				<!-- TODO: enable when time to read (ttr) is implemented -->
-				<!-- ({article.ttr}) -->
-			</a>
+			<div>
+				<a class="bold font-subtitle text-start hover:underline" href={article.url}>
+					Read more
+					<!-- TODO: enable when time to read (ttr) is implemented -->
+					<!-- ({article.ttr}) -->
+				</a>
+			</div>
 		</article>
 	{/each}
 </main>
