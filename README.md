@@ -20,6 +20,10 @@
 	<img alt="home page screenshot" src="./screenshots/home-light.jpeg"  />
 </picture>
 
+## Authentication
+
+You can **optionally** protect your reading list with a password by setting a `PASSWORD` env variable in your compose config. This will protect all routes (except for feeds ie `/rss`, `/atom`, etc. **working on a better solution to this**).
+
 ## Add an article
 
 **Requires Authentication**
