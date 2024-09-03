@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				description: article.description?.slice(0, 200) ?? article.content?.slice(0, 200) + '...',
 				content: article.content,
 				author: article.author,
-				date: article.published ?? new Date().toString()
+				date: article.published || new Date().toDateString()
 			});
 
 		return new Response(JSON.stringify({ id: lastInsertRowid, url }), {
