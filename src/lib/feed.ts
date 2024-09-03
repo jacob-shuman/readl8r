@@ -12,6 +12,7 @@ export interface FeedItem {
 	description: ArticleData['description'];
 	content: ArticleData['content'];
 	author: ArticleData['author'];
+	favicon: ArticleData['favicon'];
 }
 
 const baseUrl = `${env.SECURE ? 'https' : 'http'}://${env.HOST}:${env.PORT}`;
@@ -30,7 +31,8 @@ export function recreateDb(): BetterSqlite3.Database {
 		  description TEXT,
 		  content TEXT,
 		  author TEXT,
-		  date TEXT
+		  date TEXT,
+		  favicon TEXT
         )
       `
 	).run();
@@ -147,4 +149,18 @@ export function generateFeedTitle(): string {
 	const publication = publications[Math.floor(Math.random() * publications.length)];
 
 	return `The ${adjective}${noun} ${publication}`;
+}
+
+export function generateFeedDescription(): string {
+	const descriptions = [
+		'Making Headlines Less Boring',
+		'Headlines, Now with Flavor.',
+		'Bringing Headlines to Life.',
+		'Now 50% Less Boring!',
+		'Your Daily Briefing, Lightly Toasted.',
+		"The World's Events, Served with a Wink.",
+		'The Daily Scoop with Extra Sass.'
+	];
+
+	return descriptions[Math.floor(Math.random() * descriptions.length)];
 }
