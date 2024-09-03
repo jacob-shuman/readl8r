@@ -3,6 +3,10 @@ name: ci
 on:
   workflow_dispatch:
   push:
+    paths-ignore:
+      - .env.example
+      - eslint.config.js
+      - README.md
     branches:
       - main
 
