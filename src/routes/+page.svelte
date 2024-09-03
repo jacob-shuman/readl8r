@@ -31,7 +31,7 @@
 	</section>
 </header>
 
-<main class="gap-x-0 pb-8 sm:columns-2 xl:columns-3">
+<main class="gap-x-0 sm:columns-2 xl:columns-3">
 	{#each articles as article}
 		<article
 			class="border-gray hover:bg-gray -ml-[1px] flex break-inside-avoid flex-col gap-y-2 border border-t-0 p-6 duration-[25ms] ease-out motion-safe:transition-colors dark:border-black dark:hover:bg-black"
