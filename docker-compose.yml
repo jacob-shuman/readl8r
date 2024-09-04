@@ -7,6 +7,17 @@ services:
     volumes:
       - ./data:/app/data
     environment:
-      SECURE: false
+      # HOST: # optional
+      # PORT: # optional
+      # SECURE: # optional
+      # PASSWORD: # optional
+      # FEED_TITLE: # optional (this will also appear as the title of the web app)
+      # FEED_DESCRIPTION: # optional
+      # FEED_IMAGE: # optional
+      # FEED_FAVICON: # optional
+      # FEED_COPYRIGHT: # optional
+      # AUTHOR_NAME: # optional
+      # AUTHOR_EMAIL: # optional
+      # AUTHOR_LINK: # optional
     ports:
       - 8080:80
