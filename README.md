@@ -5,7 +5,7 @@
 
 # readl8r
 
-> A _**R**eally **S**imple_ FOSS read later _**S**ervice_ that serves an [RSS](https://www.rssboard.org/rss-specification) feed of all your articles.
+> A _**R**eally **S**imple_ FOSS read later _**S**ervice_.
 
 ## :star: Features
 
@@ -20,7 +20,34 @@
 	<img alt="home page screenshot" src="./screenshots/home-light.jpeg"  />
 </picture>
 
-## :lock: Authentication
+## :rocket: Getting started
+
+### :ship: Docker Compose
+
+Although you can clone/build readl8r locally, it's recommended for users to run the [docker image on Docker Hub](https://hub.docker.com/r/jacobshuman/readl8r). Copy the contents of this [docker-compose.yml](./docker-compose.yml) file to your computer and run:
+
+```bash
+docker compose up
+```
+
+### :palm_tree: Environment variables
+
+| Name             | Required | Description                                                                    | Default     |
+| ---------------- | -------- | ------------------------------------------------------------------------------ | ----------- |
+| HOST             | No       | Hostname or IP address where the service is hosted                             | `0.0.0.0`   |
+| PORT             | No       | The port number used for the service                                           | `80`        |
+| SECURE           | No       | Indicates whether to use HTTPS (true) or HTTP (false)                          | `false`     |
+| PASSWORD         | No       | Password required for authentication                                           | `undefined` |
+| FEED_TITLE       | No       | Title of the feed (displayed on the web app)                                   | `undefined` |
+| FEED_DESCRIPTION | No       | Brief description of the feed's content and purpose (displayed on the web app) | `undefined` |
+| FEED_IMAGE       | No       | URL to an image that represents the feed (e.g., logo or banner)                | `undefined` |
+| FEED_FAVICON     | No       | URL to the favicon to be displayed in browsers for the feed                    | `undefined` |
+| FEED_COPYRIGHT   | No       | Copyright information regarding the content of the feed                        | `undefined` |
+| AUTHOR_NAME      | No       | Name of the feed's author                                                      | `undefined` |
+| AUTHOR_EMAIL     | No       | Email address of the author                                                    | `undefined` |
+| AUTHOR_LINK      | No       | URL to the author's website or social media profile                            | `undefined` |
+
+### :lock: Authentication
 
 You can **optionally** protect your reading list with a password by setting a `PASSWORD` env variable in your compose config. This will protect all routes (except for feeds ie `/rss`, `/atom`, etc. **working on a better solution to this**).
 
