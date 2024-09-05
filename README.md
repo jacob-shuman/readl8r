@@ -32,20 +32,20 @@ docker compose up
 
 ### :palm_tree: Environment variables
 
-| Name             | Required | Description                                                                    | Default     |
-| ---------------- | -------- | ------------------------------------------------------------------------------ | ----------- |
-| HOST             | No       | Hostname or IP address where the service is hosted                             | `0.0.0.0`   |
-| PORT             | No       | The port number used for the service                                           | `80`        |
-| SECURE           | No       | Indicates whether to use HTTPS (true) or HTTP (false)                          | `false`     |
-| PASSWORD         | No       | Password required for authentication                                           | `undefined` |
-| FEED_TITLE       | No       | Title of the feed (displayed on the web app)                                   | `undefined` |
-| FEED_DESCRIPTION | No       | Brief description of the feed's content and purpose (displayed on the web app) | `undefined` |
-| FEED_IMAGE       | No       | URL to an image that represents the feed (e.g., logo or banner)                | `undefined` |
-| FEED_FAVICON     | No       | URL to the favicon to be displayed in browsers for the feed                    | `undefined` |
-| FEED_COPYRIGHT   | No       | Copyright information regarding the content of the feed                        | `undefined` |
-| AUTHOR_NAME      | No       | Name of the feed's author                                                      | `undefined` |
-| AUTHOR_EMAIL     | No       | Email address of the author                                                    | `undefined` |
-| AUTHOR_LINK      | No       | URL to the author's website or social media profile                            | `undefined` |
+| Name               | Required | Description                                                                    | Default     |
+| ------------------ | -------- | ------------------------------------------------------------------------------ | ----------- |
+| `HOST`             | No       | Hostname or IP address where the service is hosted                             | `0.0.0.0`   |
+| `PORT`             | No       | The port number used for the service                                           | `80`        |
+| `SECURE`           | No       | Indicates whether to use HTTPS (true) or HTTP (false)                          | `false`     |
+| `PASSWORD`         | No       | Password required for authentication                                           | `undefined` |
+| `FEED_TITLE`       | No       | Title of the feed (displayed on the web app)                                   | `undefined` |
+| `FEED_DESCRIPTION` | No       | Brief description of the feed's content and purpose (displayed on the web app) | `undefined` |
+| `FEED_IMAGE`       | No       | URL to an image that represents the feed (e.g., logo or banner)                | `undefined` |
+| `FEED_FAVICON`     | No       | URL to the favicon to be displayed in browsers for the feed                    | `undefined` |
+| `FEED_COPYRIGHT`   | No       | Copyright information regarding the content of the feed                        | `undefined` |
+| `AUTHOR_NAME`      | No       | Name of the feed's author                                                      | `undefined` |
+| `AUTHOR_EMAIL`     | No       | Email address of the author                                                    | `undefined` |
+| `AUTHOR_LINK`      | No       | URL to the author's website or social media profile                            | `undefined` |
 
 ### :lock: Authentication
 
@@ -97,7 +97,7 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 | ------ | ----------- | ------------ | ------------------ |
 | 200    | `undefined` | `FeedItem[]` | `application/json` |
 
-## :no_entry_sign: Remove all articles
+## :wastebasket: Remove all articles
 
 **Requires Authentication**
 
