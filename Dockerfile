@@ -11,7 +11,7 @@ WORKDIR /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm build
 
-FROM node:20
+FROM node:20-slim
 
 ENV HOST=0.0.0.0
 ENV PORT=80
