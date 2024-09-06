@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		return new Response(undefined, { status: 401, statusText: 'Missing bearer token' });
 	}
 
-	recreateDb().prepare('DROP TABLE articles').run();
+	recreateDb().exec('DROP TABLE articles');
 	recreateDb();
 
 	return new Response(undefined, {

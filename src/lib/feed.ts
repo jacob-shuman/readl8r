@@ -22,7 +22,7 @@ export function recreateDb(): BetterSqlite3.Database {
 
 	const db = BetterSqlite3('data/local.sqlite');
 
-	db.prepare(
+	return db.exec(
 		`
         CREATE TABLE IF NOT EXISTS articles (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,9 +35,7 @@ export function recreateDb(): BetterSqlite3.Database {
 		  favicon TEXT
         )
       `
-	).run();
-
-	return db;
+	);
 }
 
 export function generateFeed(items: FeedItem[]): Feed {
