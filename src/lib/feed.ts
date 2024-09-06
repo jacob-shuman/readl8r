@@ -1,8 +1,6 @@
 import { env } from '$env/dynamic/private';
 import { type ArticleData } from '@extractus/article-extractor';
-import BetterSqlite3 from 'better-sqlite3';
 import { Feed } from 'feed';
-import { mkdirSync } from 'node:fs';
 
 export interface FeedItem {
 	id: number;
@@ -16,27 +14,6 @@ export interface FeedItem {
 }
 
 const baseUrl = `${env.SECURE ? 'https' : 'http'}://${env.HOST}:${env.PORT}`;
-
-export function recreateDb(): BetterSqlite3.Database {
-	mkdirSync('./data', { recursive: true });
-
-	const db = BetterSqlite3('data/local.sqlite');
-
-	return db.exec(
-		`
-        CREATE TABLE IF NOT EXISTS articles (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          url TEXT NOT NULL,
-		  title TEXT,
-		  description TEXT,
-		  content TEXT,
-		  author TEXT,
-		  date TEXT,
-		  favicon TEXT
-        )
-      `
-	);
-}
 
 export function generateFeed(items: FeedItem[]): Feed {
 	const feed = new Feed({
@@ -74,14 +51,6 @@ export function generateFeed(items: FeedItem[]): Feed {
 	}
 
 	return feed;
-}
-
-export function getArticles(): FeedItem[] {
-	const db = recreateDb();
-
-	const articles = db.prepare('SELECT * FROM articles').all() as unknown as FeedItem[];
-
-	return articles;
 }
 
 const adjectives: string[] = [

@@ -1,5 +1,6 @@
 import { env } from '$env/dynamic/private';
-import { generateFeedDescription, generateFeedTitle, getArticles } from '$lib/feed';
+import { getArticles } from '$lib/db';
+import { generateFeedDescription, generateFeedTitle } from '$lib/feed';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async () => ({

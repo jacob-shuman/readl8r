@@ -1,5 +1,5 @@
 import { isAuthorized } from '$lib/auth';
-import { recreateDb } from '$lib/feed';
+import { recreateDb } from '$lib/db';
 import { type RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ request }) => {
