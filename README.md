@@ -5,7 +5,7 @@
 
 # readl8r
 
-> A _**R**eally **S**imple_ FOSS read later _**S**ervice_.
+> A no-nonsense read later service
 
 ## :star: Features
 
@@ -13,7 +13,7 @@
 - :clipboard: [Get a `JSON` array of articles](#get-a-json-array-of-articles) by making a `GET` request to `/articles`.
 - :no_entry_sign: [Remove all articles](#remove-all-articles) by making a `POST` request to `/articles/clear`.
 - :file_cabinet: All articles are stored in a `/data/local.sqlite` SQLite database.
-- :inbox_tray: Get an [RSS](https://www.rssboard.org/rss-specification), [Atom](https://validator.w3.org/feed/docs/atom.html), or [JSON](https://www.jsonfeed.org/) feed of articles at [`/rss`](#generate-rss2-feed-from-articles), [`/atom`](#generate-atom-feed-from-articles), or [`/json`](#generate-json-feed-from-articles) respectively.
+- :inbox_tray: Get an [RSS](https://www.rssboard.org/rss-specification), [Atom](https://validator.w3.org/feed/docs/atom.html), and [JSON](https://www.jsonfeed.org/) feed of articles at [`/rss`](#generate-rss2-feed-from-articles), [`/atom`](#generate-atom-feed-from-articles), and [`/json`](#generate-json-feed-from-articles) respectively.
 
 <picture>
 	<source media="(prefers-color-scheme: dark)" srcset="./screenshots/home-dark.jpeg" />
@@ -64,6 +64,13 @@ You can add an article by providing the article's url in the body of a `POST` re
 ```jsonc
 {
 	// required
+	"url": "https://dev.to/jacobshuman/wtf-is-a-github-profile-readmemd-1p8c"
+}
+```
+
+<!-- ```jsonc
+{
+	// required
 	"url": "https://dev.to/jacobshuman/wtf-is-a-github-profile-readmemd-1p8c",
 
 	// optional
@@ -73,7 +80,7 @@ You can add an article by providing the article's url in the body of a `POST` re
 	"content": "",
 	"date": ""
 }
-```
+``` -->
 
 ### Responses
 

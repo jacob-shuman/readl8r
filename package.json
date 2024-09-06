@@ -1,5 +1,6 @@
 {
 	"name": "readl8r",
+	"description": "A no-nonsense read later service",
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
@@ -17,10 +18,10 @@
 		"@extractus/article-extractor": "^8.0.10",
 		"@fontsource/unifrakturcook": "^5.0.20",
 		"@fontsource/unifrakturmaguntia": "^5.0.20",
+		"@iconify/svelte": "^4.0.2",
 		"@sveltejs/adapter-node": "^5.2.2",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
-		"@tabler/icons-svelte": "^3.14.0",
 		"@types/better-sqlite3": "^7.6.11",
 		"@types/eslint": "^9.6.0",
 		"@types/rss": "^0.0.32",

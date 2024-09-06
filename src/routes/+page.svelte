@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '@fontsource/unifrakturcook';
 	import '@fontsource/unifrakturmaguntia';
-	import { IconAtom, IconJson, IconRss } from '@tabler/icons-svelte';
+	import Icon from '@iconify/svelte';
 	import { onMount } from 'svelte';
 	import Article from './Article.svelte';
 
@@ -37,9 +37,9 @@
 			</p>
 
 			<div class="flex gap-x-4">
-				<a href="/rss.xml"><IconRss class="size-4" /></a>
-				<a href="/atom"><IconAtom class="size-4" /></a>
-				<a href="/json"><IconJson class="size-4" /></a>
+				<a href="/rss.xml"><Icon icon="tabler:rss" class="size-4" /></a>
+				<a href="/atom"><Icon icon="tabler:atom" class="size-4" /></a>
+				<a href="/json"><Icon icon="tabler:json" class="size-4" /></a>
 			</div>
 		</section>
 	</header>

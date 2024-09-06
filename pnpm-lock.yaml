@@ -21,6 +21,9 @@ importers:
       '@fontsource/unifrakturmaguntia':
         specifier: ^5.0.20
         version: 5.0.20
+      '@iconify/svelte':
+        specifier: ^4.0.2
+        version: 4.0.2(svelte@4.2.19)
       '@sveltejs/adapter-node':
         specifier: ^5.2.2
         version: 5.2.2(@sveltejs/kit@2.5.24(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)))(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)))
@@ -30,9 +33,6 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.0.0
         version: 3.1.2(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0))
-      '@tabler/icons-svelte':
-        specifier: ^3.14.0
-        version: 3.14.0(svelte@4.2.19)
       '@types/better-sqlite3':
         specifier: ^7.6.11
         version: 7.6.11
@@ -280,6 +280,14 @@ packages:
     resolution: {integrity: sha512-d2CGZR2o7fS6sWB7DG/3a95bGKQyHMACZ5aW8qGkkqQpUoZV6C0X7Pc7l4ZNMZkfNBf4VWNe9E1jRsf0G146Ew==}
     engines: {node: '>=18.18'}
 
+  '@iconify/svelte@4.0.2':
+    resolution: {integrity: sha512-6BSrU85FzGfhQD3bTXpnkCCvBAglEt8T9QednVnXAYm4C+d3464y+pYMzhQNJm5mPId2cuiw+2wXlDflXllHDw==}
+    peerDependencies:
+      svelte: '>4.0.0'
+
+  '@iconify/types@2.0.0':
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -469,14 +477,6 @@ packages:
     peerDependencies:
       svelte: ^4.0.0 || ^5.0.0-next.0
       vite: ^5.0.0
-
-  '@tabler/icons-svelte@3.14.0':
-    resolution: {integrity: sha512-1o1ldrD+w8IoCCnOgBy2b8pip6Vio7sOHN+z7w4k9FBXnCZubbLvLYONWWFWqCESsugEc5q2Vhxm8B3Rjw4yPA==}
-    peerDependencies:
-      svelte: '>=3 <6 || >=5.0.0-next.0'
-
-  '@tabler/icons@3.14.0':
-    resolution: {integrity: sha512-OakKjK1kuDWKoNwdnHHVMt11kTZAC10iZpN/8o/CSYdeBH7S3v5n8IyqAYynFxLI8yBGTyBvljtvWdmWh57zSg==}
 
   '@types/better-sqlite3@7.6.11':
     resolution: {integrity: sha512-i8KcD3PgGtGBLl3+mMYA8PdKkButvPyARxA7IQAd6qeslht13qxb1zzO8dRCtE7U3IoJS782zDBAeoKiM695kg==}
@@ -2006,6 +2006,13 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.0': {}
 
+  '@iconify/svelte@4.0.2(svelte@4.2.19)':
+    dependencies:
+      '@iconify/types': 2.0.0
+      svelte: 4.2.19
+
+  '@iconify/types@2.0.0': {}
+
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -2183,13 +2190,6 @@ snapshots:
       vitefu: 0.2.5(vite@5.4.2(@types/node@22.5.0))
     transitivePeerDependencies:
       - supports-color
-
-  '@tabler/icons-svelte@3.14.0(svelte@4.2.19)':
-    dependencies:
-      '@tabler/icons': 3.14.0
-      svelte: 4.2.19
-
-  '@tabler/icons@3.14.0': {}
 
   '@types/better-sqlite3@7.6.11':
     dependencies:
