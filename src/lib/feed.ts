@@ -5,7 +5,8 @@ import { Feed } from 'feed';
 export interface FeedItem {
 	id: number;
 	url: string;
-	date: string;
+	publish_date: string;
+	added_date: string;
 	title: ArticleData['title'];
 	description: ArticleData['description'];
 	content: ArticleData['content'];
@@ -45,7 +46,7 @@ export function generateFeed(items: FeedItem[]): Feed {
 			title: item.title ?? 'No title',
 			description: item.description ?? 'No description',
 			link: item.url,
-			date: new Date(item.date),
+			date: new Date(item.publish_date),
 			content: item.content
 		});
 	}

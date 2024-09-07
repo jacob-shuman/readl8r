@@ -19,7 +19,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	if (article) {
 		const { lastInsertRowid } = db
 			.prepare(
-				'INSERT INTO articles (url, title, description, content, author, date, favicon) VALUES (@url, @title, @description, @content, @author, @date, @favicon)'
+				'INSERT INTO articles (url, title, description, content, author, publish_date, added_date, favicon) VALUES (@url, @title, @description, @content, @author, @publish_date, @added_date, @favicon)'
 			)
 			.run({
 				url,
@@ -27,7 +27,8 @@ export const POST: RequestHandler = async ({ request }) => {
 				description: article.description?.slice(0, 200) ?? article.content?.slice(0, 200) + '...',
 				content: article.content,
 				author: article.author,
-				date: article.published || new Date().toDateString(),
+				publish_date: article.published || new Date().toDateString(),
+				added_date: new Date().toDateString(),
 				favicon: article.favicon
 			});
 
