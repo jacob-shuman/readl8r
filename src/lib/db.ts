@@ -9,9 +9,7 @@ export function recreateDb(): BetterSqlite3.Database {
 
 	const db = BetterSqlite3('data/local.sqlite');
 
-	migrateDb(db);
-
-	return db.exec(
+	db.exec(
 		`
         CREATE TABLE IF NOT EXISTS articles (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,6 +24,16 @@ export function recreateDb(): BetterSqlite3.Database {
         )
       `
 	);
+
+	migrateDb(db);
+
+	return db;
+}
+
+export function getArticle(id: string): FeedItem {
+	const db = recreateDb();
+
+	return db.prepare(`SELECT * FROM articles WHERE id = ${id}`).get() as FeedItem;
 }
 
 export function getArticles(): FeedItem[] {
@@ -64,5 +72,9 @@ export function migrateDb(db: BetterSqlite3.Database) {
 		console.info(
 			`database already at latest version, ${user_version} (your database version) >= ${DB_VERSION} (latest version)`
 		);
+	}
+
+	if (user_version < DB_VERSION) {
+		console.warn('user_version doesnt match DB_VERSION, there may be a missing migration!');
 	}
 }
