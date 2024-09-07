@@ -37,9 +37,24 @@
 			</p>
 
 			<div class="flex gap-x-4">
-				<a href="/rss.xml"><Icon icon="tabler:rss" class="size-4" /></a>
-				<a href="/atom"><Icon icon="tabler:atom" class="size-4" /></a>
-				<a href="/json"><Icon icon="tabler:json" class="size-4" /></a>
+				<a href="/rss.xml">
+					<Icon
+						icon="tabler:rss"
+						class="size-4 duration-100 ease-out hover:opacity-50 motion-safe:transition-opacity"
+					/>
+				</a>
+				<a href="/atom">
+					<Icon
+						icon="tabler:atom"
+						class="size-4 duration-100 ease-out hover:opacity-50 motion-safe:transition-opacity"
+					/>
+				</a>
+				<a href="/json">
+					<Icon
+						icon="tabler:json"
+						class="size-4 duration-100 ease-out hover:opacity-50 motion-safe:transition-opacity"
+					/>
+				</a>
 			</div>
 		</section>
 	</header>
