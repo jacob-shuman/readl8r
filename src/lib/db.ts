@@ -36,6 +36,12 @@ export function getArticles(): FeedItem[] {
 	return articles;
 }
 
+export function deleteArticle(id: string): BetterSqlite3.RunResult {
+	const db = recreateDb();
+
+	return db.prepare(`DELETE FROM articles WHERE id = ${id}`).run();
+}
+
 export function migrateDb(db: BetterSqlite3.Database) {
 	const { user_version } = db.prepare('PRAGMA user_version').get() as { user_version: number };
 
