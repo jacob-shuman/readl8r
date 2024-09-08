@@ -4,7 +4,7 @@ import { type RequestHandler } from '@sveltejs/kit';
 export const GET: RequestHandler = async ({ params }) => {
 	const { articleId } = params;
 
-	const article = getArticle(articleId!);
+	const article = getArticle(Number(articleId));
 
 	if (!article) {
 		return new Response(undefined, {
@@ -14,6 +14,7 @@ export const GET: RequestHandler = async ({ params }) => {
 	}
 
 	return new Response(JSON.stringify(article), {
+		headers: { 'Content-Type': 'application/json' },
 		status: 200
 	});
 };

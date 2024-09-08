@@ -1,10 +1,14 @@
 <script lang="ts">
-	import type { FeedItem } from '$lib/feed';
+	import { invalidateAll } from '$app/navigation';
+	import { type Article } from '$lib/types';
+	import Icon from '@iconify/svelte';
+
 	import { onMount } from 'svelte';
 
-	export let { index, favicon, title, url, author, date, description } = $$props as FeedItem & {
-		index: number;
-	};
+	export let { index, id, favicon, title, url, author, publish_date, description } =
+		$$props as Article & {
+			index: number;
+		};
 
 	let isMounted = false;
 	onMount(() => {
@@ -29,7 +33,7 @@
 		<h3 class="inline-flex gap-x-1">
 			<i>{author || 'By some author'}</i>
 			<span>•</span>
-			<i>{date ? new Date(date).toDateString() : 'At some point in time'}</i>
+			<i>{publish_date ? new Date(publish_date).toDateString() : 'At some point in time'}</i>
 		</h3>
 	</div>
 
@@ -43,9 +47,23 @@
 		</a>
 
 		<!-- TODO: enable when delete article is implemented -->
-		<!-- <button>
-					<IconTrashFilled class="size-4" />
-				</button> -->
+		<button
+			on:click={async () => {
+				// TODO: replace with password cookie
+				const password = 'this-is-the-token';
+
+				const { status } = await fetch(`/articles/${id}/delete`, {
+					method: 'DELETE',
+					headers: { Authorization: `Bearer ${password}` }
+				});
+
+				if (status === 200) {
+					await invalidateAll();
+				}
+			}}
+		>
+			<Icon icon="tabler:trash-filled" class="size-4" />
+		</button>
 	</div>
 </article>
 

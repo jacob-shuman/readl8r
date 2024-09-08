@@ -1,5 +1,5 @@
 import { isAuthorized } from '$lib/auth';
-import { recreateDb } from '$lib/db';
+import { deleteAllArticles } from '$lib/db';
 import { type RequestHandler } from '@sveltejs/kit';
 
 export const DELETE: RequestHandler = async ({ request }) => {
@@ -7,11 +7,10 @@ export const DELETE: RequestHandler = async ({ request }) => {
 		return new Response(undefined, { status: 401, statusText: 'Missing bearer token' });
 	}
 
-	recreateDb().exec('DROP TABLE articles');
-	recreateDb();
+	const [{ numDeletedRows }] = await deleteAllArticles();
 
 	return new Response(undefined, {
 		status: 200,
-		statusText: 'articles cleared successfully'
+		statusText: `${numDeletedRows} articles cleared successfully`
 	});
 };

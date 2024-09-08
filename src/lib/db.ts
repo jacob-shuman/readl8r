@@ -1,80 +1,140 @@
 import BetterSqlite3 from 'better-sqlite3';
+import {
+	DeleteResult,
+	InsertResult,
+	Kysely,
+	Migrator,
+	SqliteDialect,
+	type Migration
+} from 'kysely';
 import { mkdirSync } from 'node:fs';
-import type { FeedItem } from './feed';
+import type { Article, ArticleUpdate, Database, NewArticle } from './types';
+import { logger } from './utils';
 
-const DB_VERSION = 1;
-
-export function recreateDb(): BetterSqlite3.Database {
+export async function getDb(): Promise<Kysely<Database>> {
 	mkdirSync('./data', { recursive: true });
 
-	const db = BetterSqlite3('data/local.sqlite');
+	console.log('here');
 
-	db.exec(
-		`
-        CREATE TABLE IF NOT EXISTS articles (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          url TEXT NOT NULL,
-		  title TEXT,
-		  description TEXT,
-		  content TEXT,
-		  author TEXT,
-		  publish_date TEXT,
-		  added_date TEXT,
-		  favicon TEXT
-        )
-      `
-	);
+	const db = new Kysely<Database>({
+		dialect: new SqliteDialect({
+			database: new BetterSqlite3('data/local.sqlite')
+		})
+	});
+	const migrator = new Migrator({
+		db,
+		provider: {
+			getMigrations: async () =>
+				import.meta.glob('../../migrations/**.ts', {
+					eager: true
+				}) as Record<string, Migration>
+		}
+	});
 
-	migrateDb(db);
+	db.schema
+		.createTable('articles')
+		.ifNotExists()
+		.addColumn('id', 'integer', (col) => col.primaryKey().autoIncrement())
+		.addColumn('url', 'text', (col) => col.notNull())
+		.addColumn('title', 'text')
+		.addColumn('description', 'text')
+		.addColumn('content', 'text')
+		.addColumn('author', 'text')
+		.addColumn('date', 'text')
+		.addColumn('favicon', 'text')
+		.execute();
+
+	const { error, results } = await migrator.migrateToLatest();
+
+	for (const res of results ?? []) {
+		if (res.status === 'Success') {
+			logger.success(`migration "${res.migrationName}" was executed successfully`);
+		} else if (res.status === 'Error') {
+			logger.error(`failed to execute migration "${res.migrationName}"`);
+		}
+	}
+
+	if (error) {
+		logger.error('failed to migrate');
+		logger.error(error);
+		process.exit(1);
+	}
 
 	return db;
 }
 
-export function getArticle(id: string): FeedItem {
-	const db = recreateDb();
+export async function addArticle(article: NewArticle): Promise<InsertResult[]> {
+	const db = await getDb();
 
-	return db.prepare(`SELECT * FROM articles WHERE id = ${id}`).get() as FeedItem;
+	return await db.insertInto('articles').values(article).execute();
 }
 
-export function getArticles(): FeedItem[] {
-	const db = recreateDb();
+export async function getArticle(id: number): Promise<Article | undefined> {
+	const db = await getDb();
 
-	const articles = db.prepare('SELECT * FROM articles').all() as FeedItem[];
-
-	return articles;
+	return await db.selectFrom('articles').where('id', '=', id).selectAll().executeTakeFirst();
 }
 
-export function deleteArticle(id: string): BetterSqlite3.RunResult {
-	const db = recreateDb();
+export async function getArticles(): Promise<Article[]> {
+	const db = await getDb();
 
-	return db.prepare(`DELETE FROM articles WHERE id = ${id}`).run();
+	return await db.selectFrom('articles').selectAll().execute();
 }
 
-export function migrateDb(db: BetterSqlite3.Database) {
-	const { user_version } = db.prepare('PRAGMA user_version').get() as { user_version: number };
+export async function updateArticle(id: number, article: ArticleUpdate): Promise<Article[]> {
+	const db = await getDb();
 
-	console.log('checking for database updates');
+	return await db
+		.updateTable('articles')
+		.set(article)
+		.where('id', '=', id)
+		.returningAll()
+		.execute();
+}
 
-	if (user_version < DB_VERSION) {
-		console.log('migration required!');
-		// version 1 - add rename date column to publish_date added_date column
-		if (user_version < 1) {
-			console.info('migrating to v1...');
-			db.exec(`
-				ALTER TABLE articles RENAME COLUMN date TO publish_date;
-				ALTER TABLE articles ADD COLUMN added_date TEXT;
-				UPDATE articles SET added_date = '${new Date().toDateString()}' WHERE added_date IS NULL;
-				PRAGMA user_version = 1;
-			`);
-			console.info('migrated to v1!');
-		}
-	} else {
-		console.info(
-			`database already at latest version, ${user_version} (your database version) >= ${DB_VERSION} (latest version)`
-		);
+export async function deleteArticle(id: number): Promise<DeleteResult[]> {
+	const db = await getDb();
+
+	return await db.deleteFrom('articles').where('id', '=', id).execute();
+}
+
+export async function deleteAllArticles(): Promise<DeleteResult[]> {
+	const db = await getDb();
+
+	return await db.deleteFrom('articles').execute();
+}
+
+export async function purgeArticles(
+	unit: 'hours' | 'days' | 'months' | 'years',
+	amount: number
+	// ): Promise<DeleteResult[]> {
+): Promise<Article[]> {
+	const db = await getDb();
+
+	const purgeDate = new Date();
+	switch (unit) {
+		case 'hours':
+			purgeDate.setHours(purgeDate.getHours() - amount);
+			break;
+		case 'days':
+			purgeDate.setDate(purgeDate.getDate() - amount);
+			break;
+		case 'months':
+			purgeDate.setMonth(purgeDate.getMonth() - amount);
+			break;
+		case 'years':
+			purgeDate.setFullYear(purgeDate.getFullYear() - amount);
+			break;
 	}
 
-	if (user_version < DB_VERSION) {
-		console.warn('user_version doesnt match DB_VERSION, there may be a missing migration!');
-	}
+	// return await db
+	// 	.deleteFrom('articles')
+	// 	.where('added_date', '<', purgeDate.toISOString())
+	// 	.execute();
+
+	return await db
+		.selectFrom('articles')
+		.selectAll()
+		.where('added_date', '<', purgeDate.toISOString())
+		.execute();
 }

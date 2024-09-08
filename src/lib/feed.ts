@@ -1,22 +1,10 @@
 import { env } from '$env/dynamic/private';
-import { type ArticleData } from '@extractus/article-extractor';
 import { Feed } from 'feed';
-
-export interface FeedItem {
-	id: number;
-	url: string;
-	publish_date: string;
-	added_date: string;
-	title: ArticleData['title'];
-	description: ArticleData['description'];
-	content: ArticleData['content'];
-	author: ArticleData['author'];
-	favicon: ArticleData['favicon'];
-}
+import type { Article } from './types';
 
 const baseUrl = `${env.SECURE ? 'https' : 'http'}://${env.HOST}:${env.PORT}`;
 
-export function generateFeed(items: FeedItem[]): Feed {
+export function generateFeed(items: Article[]): Feed {
 	const feed = new Feed({
 		title: env.FEED_TITLE ?? 'readl8r',
 		description: env.FEED_DESCRIPTION,
@@ -47,7 +35,7 @@ export function generateFeed(items: FeedItem[]): Feed {
 			description: item.description ?? 'No description',
 			link: item.url,
 			date: new Date(item.publish_date),
-			content: item.content
+			content: item.content ?? undefined
 		});
 	}
 
