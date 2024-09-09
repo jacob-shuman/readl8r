@@ -4,6 +4,7 @@
 	import Icon from '@iconify/svelte';
 
 	import { onMount } from 'svelte';
+	import ArticleCard from './ArticleCard.svelte';
 
 	export let { index, id, ttr, favicon, title, url, author, publish_date, description } =
 		$$props as Article & {
@@ -11,16 +12,13 @@
 		};
 
 	let isMounted = false;
+
 	onMount(() => {
 		setTimeout(() => (isMounted = true), 500 + 15 * index);
 	});
 </script>
 
-<article
-	class="-ml-[1px] flex break-inside-avoid flex-col gap-y-2 border border-t-0 border-gray p-6 duration-[25ms] ease-out hover:bg-gray motion-safe:transition-colors dark:border-black dark:hover:bg-black"
-	class:faded={isMounted}
-	class:opacity-0={!isMounted}
->
+<ArticleCard {isMounted}>
 	<div class="flex flex-col gap-y-1">
 		<h2 class="flex items-start gap-x-2 font-title text-2xl">
 			{#if favicon}
@@ -55,7 +53,7 @@
 
 				const { status } = await fetch(`/articles/${id}/delete`, {
 					method: 'DELETE',
-					headers: { Authorization: `Bearer ${password}` }
+					headers: password ? { Authorization: `Bearer ${password}` } : undefined
 				});
 
 				if (status === 200) {
@@ -66,7 +64,7 @@
 			<Icon icon="tabler:trash-filled" class="size-4 duration-100 ease-out hover:opacity-50" />
 		</button>
 	</div>
-</article>
+</ArticleCard>
 
 <style>
 	@keyframes fade {
