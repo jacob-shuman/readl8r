@@ -23,7 +23,8 @@ export const POST: RequestHandler = async ({ request }) => {
 			author: article.author,
 			publish_date: article.published || new Date().toISOString(),
 			added_date: new Date().toISOString(),
-			favicon: article.favicon
+			favicon: article.favicon,
+			ttr: article.ttr
 		});
 
 		return new Response(undefined, {

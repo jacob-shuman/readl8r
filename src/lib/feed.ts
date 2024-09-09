@@ -34,8 +34,9 @@ export function generateFeed(items: Article[]): Feed {
 			title: item.title ?? 'No title',
 			description: item.description ?? 'No description',
 			link: item.url,
-			date: new Date(item.publish_date),
-			content: item.content ?? undefined
+			date: new Date(item.publish_date), // TODO: whats the difference between date and published?
+			content: item.content ?? undefined,
+			author: item.author ? [{ name: item.author }] : undefined
 		});
 	}
 

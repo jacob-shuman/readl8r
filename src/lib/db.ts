@@ -14,8 +14,6 @@ import { logger } from './utils';
 export async function getDb(): Promise<Kysely<Database>> {
 	mkdirSync('./data', { recursive: true });
 
-	console.log('here');
-
 	const db = new Kysely<Database>({
 		dialect: new SqliteDialect({
 			database: new BetterSqlite3('data/local.sqlite')

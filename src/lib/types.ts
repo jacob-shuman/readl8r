@@ -10,6 +10,7 @@ export interface ArticleTable {
 	content: string | null;
 	author: string | null;
 	favicon: string | null;
+	ttr: number | null;
 }
 
 export type Article = Selectable<ArticleTable>;

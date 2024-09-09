@@ -5,7 +5,7 @@
 
 	import { onMount } from 'svelte';
 
-	export let { index, id, favicon, title, url, author, publish_date, description } =
+	export let { index, id, ttr, favicon, title, url, author, publish_date, description } =
 		$$props as Article & {
 			index: number;
 		};
@@ -42,8 +42,9 @@
 	<div class="flex items-center justify-between">
 		<a class="bold text-start font-subtitle hover:underline" href={url}>
 			Read more
-			<!-- TODO: enable when time to read (ttr) is implemented -->
-			<!-- ({ttr}) -->
+			{#if ttr != null}
+				({Math.round(ttr / 60)} minutes)
+			{/if}
 		</a>
 
 		<!-- TODO: enable when delete article is implemented -->
@@ -62,7 +63,7 @@
 				}
 			}}
 		>
-			<Icon icon="tabler:trash-filled" class="size-4" />
+			<Icon icon="tabler:trash-filled" class="size-4 duration-100 ease-out hover:opacity-50" />
 		</button>
 	</div>
 </article>
