@@ -11,7 +11,7 @@
 
 - :heavy_plus_sign: [Add an article](#add-an-article) by making a `POST` request (with `url` in a `JSON` body) to `/articles/add`.
 - :clipboard: [Get a `JSON` array of articles](#get-a-json-array-of-articles) by making a `GET` request to `/articles`.
-- :no_entry_sign: [Remove all articles](#remove-all-articles) by making a `POST` request to `/articles/clear`.
+- :no_entry_sign: [Remove all articles](#remove-all-articles) by making a `DELETE` request to `/articles/clear`.
 - :file_cabinet: All articles are stored in a `/data/local.sqlite` SQLite database.
 - :inbox_tray: Get an [RSS](https://www.rssboard.org/rss-specification), [Atom](https://validator.w3.org/feed/docs/atom.html), and [JSON](https://www.jsonfeed.org/) feed of articles at [`/rss`](#generate-rss2-feed-from-articles), [`/atom`](#generate-atom-feed-from-articles), and [`/json`](#generate-json-feed-from-articles) respectively.
 
@@ -100,9 +100,9 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 
 ### Responses
 
-| Status | StatusText  | Body         | Content-Type       |
-| ------ | ----------- | ------------ | ------------------ |
-| 200    | `undefined` | `FeedItem[]` | `application/json` |
+| Status | StatusText  | Body        | Content-Type       |
+| ------ | ----------- | ----------- | ------------------ |
+| 200    | `undefined` | `Article[]` | `application/json` |
 
 ## :wastebasket: Remove all articles
 
@@ -110,7 +110,7 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 
 `Content-Type: application/xml+rss`
 
-`POST (http|https)://HOST:PORT/articles/clear`
+`DELETE (http|https)://HOST:PORT/articles/clear`
 
 ### Responses
 
