@@ -4,6 +4,7 @@
 	import Icon from '@iconify/svelte';
 	import { onMount } from 'svelte';
 	import Article from './Article.svelte';
+	import ArticleCard from './ArticleCard.svelte';
 
 	export let data;
 	$: ({ title, articles, description } = data);
@@ -13,6 +14,18 @@
 	onMount(() => {
 		isMounted = true;
 	});
+
+	function generateNoArticlesTitle(): string {
+		const titles = [
+			'Your reading list is taking a day off!',
+			'Looks like the news is on pause, check again later!',
+			'Nothing on the front page, check back later!',
+			'No stories today, but the headlines will return!',
+			'All quiet on the reading front, come back soon!'
+		];
+
+		return titles[Math.floor(Math.random() * titles.length)];
+	}
 </script>
 
 {#if isMounted}
@@ -60,9 +73,41 @@
 	</header>
 
 	<main class="gap-x-0 sm:columns-2 xl:columns-3">
-		{#each articles as article, index}
-			<Article {...article} {index} />
-		{/each}
+		{#if articles.length > 0}
+			{#each articles as article, index}
+				<Article {...article} {index} />
+			{/each}
+		{:else}
+			<ArticleCard {isMounted}>
+				<h2 class="flex items-start gap-x-2 font-title text-2xl">
+					{generateNoArticlesTitle()}
+				</h2>
+				<p class="text-justify">There are no articles in your list...</p>
+			</ArticleCard>
+
+			<ArticleCard {isMounted}>
+				<h2 class="flex items-start gap-x-2 font-title text-2xl">Are you a developer?</h2>
+
+				<p class="text-justify">
+					Make a POST request to <code>/articles/add</code> to add a new article.
+				</p>
+
+				<a href="https://github.com/jacob-shuman/readl8r" class="hover:underline">
+					click here to open readl8r's README for detailed documentation
+				</a>
+			</ArticleCard>
+
+			<!-- TODO: enable once add article ui is created -->
+			<!-- <ArticleCard {isMounted}>
+				<h2 class="flex items-start gap-x-2 font-title text-2xl">Not a developer? No Problem!</h2>
+
+				<a class="text-justify hover:underline" href="/articles/add">
+					Click here to add a new article
+				</a> -->
+
+			<!-- TODO: include an option to quickly add an article here by url -->
+			<!-- </ArticleCard> -->
+		{/if}
 	</main>
 {/if}
 
