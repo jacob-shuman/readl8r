@@ -2,16 +2,16 @@ import { isAuthorized } from '$lib/auth';
 import { deleteArticle } from '$lib/db';
 import { type RequestHandler } from '@sveltejs/kit';
 
-export const DELETE: RequestHandler = async ({ request, params }) => {
+export const DELETE: RequestHandler = async ({ request, params, cookies }) => {
 	const { articleId } = params;
 
-	if (!isAuthorized(request)) {
-		return new Response(undefined, { status: 401, statusText: 'Missing bearer token' });
+	if (!isAuthorized({ request, cookies })) {
+		return new Response(undefined, { status: 401, statusText: 'Not authorized' });
 	}
 
-	const { changes } = deleteArticle(articleId!);
+	const [{ numDeletedRows }] = await deleteArticle(Number(articleId));
 
-	if (changes < 1) {
+	if (numDeletedRows < 1) {
 		return new Response(undefined, {
 			status: 404,
 			statusText: `there is no article with id of ${articleId}`

@@ -7,6 +7,7 @@ services:
     volumes:
       - ./data:/app/data
     # environment:
+    # AUTH_SECRET: # required if PASSWORD is set
     # HOST: # optional
     # PORT: # optional
     # SECURE: # optional

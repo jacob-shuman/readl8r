@@ -3,10 +3,10 @@ import { addArticle } from '$lib/db';
 import { extract } from '@extractus/article-extractor';
 import { type RequestHandler } from '@sveltejs/kit';
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, cookies }) => {
 	const { url } = await request.json();
 
-	if (!isAuthorized(request)) {
+	if (!isAuthorized({ request, cookies })) {
 		return new Response(undefined, { status: 401, statusText: 'Missing bearer token' });
 	} else if (!url) {
 		return new Response(undefined, { status: 400, statusText: 'url is required' });

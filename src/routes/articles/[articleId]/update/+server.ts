@@ -15,6 +15,9 @@ export const POST: RequestHandler = async ({ request, params }) => {
 	}
 
 	return new Response(JSON.stringify(updatedArticle), {
+		headers: {
+			'Content-Type': 'application/json'
+		},
 		status: 200
 	});
 };

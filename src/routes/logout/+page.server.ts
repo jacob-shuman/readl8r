@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
 export const load = ({ cookies }) => {
-	cookies.delete('authenticated', { path: '/' });
+	cookies.delete('auth', { path: '/' });
 	return redirect(303, '/login');
 };
