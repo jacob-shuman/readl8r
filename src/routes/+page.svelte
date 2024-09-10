@@ -1,7 +1,6 @@
 <script lang="ts">
-	import '@fontsource/unifrakturcook';
-	import '@fontsource/unifrakturmaguntia';
-	import Icon from '@iconify/svelte';
+	import Button from '$lib/components/Button.svelte';
+	import IconButton from '$lib/components/IconButton.svelte';
 	import { onMount } from 'svelte';
 	import Article from './Article.svelte';
 	import ArticleCard from './ArticleCard.svelte';
@@ -41,7 +40,7 @@
 		<section
 			class="flex w-full flex-col gap-y-2 px-page py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-y-0"
 		>
-			<p class="inline-flex gap-x-4">
+			<p class="inline-flex items-center gap-x-4">
 				<i>{new Date().toDateString()}</i>
 				<span>•</span>
 				<i>
@@ -49,25 +48,12 @@
 				</i>
 			</p>
 
-			<div class="flex gap-x-4">
-				<a href="/rss.xml">
-					<Icon
-						icon="tabler:rss"
-						class="size-4 duration-100 ease-out hover:opacity-50 motion-safe:transition-opacity"
-					/>
-				</a>
-				<a href="/atom">
-					<Icon
-						icon="tabler:atom"
-						class="size-4 duration-100 ease-out hover:opacity-50 motion-safe:transition-opacity"
-					/>
-				</a>
-				<a href="/json">
-					<Icon
-						icon="tabler:json"
-						class="size-4 duration-100 ease-out hover:opacity-50 motion-safe:transition-opacity"
-					/>
-				</a>
+			<div class="flex items-center gap-x-4">
+				<IconButton icon="tabler:rss" href="/rss.xml" />
+				<IconButton icon="tabler:atom" href="/atom" />
+				<IconButton icon="tabler:json" href="/json" />
+				<span>•</span>
+				<IconButton icon="tabler:logout" href="/logout" />
 			</div>
 		</section>
 	</header>
@@ -75,7 +61,7 @@
 	<main class="gap-x-0 sm:columns-2 xl:columns-3">
 		{#if articles.length > 0}
 			{#each articles as article, index}
-				<Article {...article} {index} />
+				<Article {...article} {index} authCookie={data.authCookie} />
 			{/each}
 		{:else}
 			<ArticleCard {isMounted}>
@@ -86,15 +72,15 @@
 			</ArticleCard>
 
 			<ArticleCard {isMounted}>
-				<h2 class="flex items-start gap-x-2 font-title text-2xl">Are you a developer?</h2>
+				<h2 class="flex items-start gap-x-2 font-title text-2xl">Developers Wanted!</h2>
 
 				<p class="text-justify">
 					Make a POST request to <code>/articles/add</code> to add a new article.
 				</p>
 
-				<a href="https://github.com/jacob-shuman/readl8r" class="hover:underline">
-					click here to open readl8r's README for detailed documentation
-				</a>
+				<Button href="https://github.com/jacob-shuman/readl8r#add-an-article">
+					Open Documentation
+				</Button>
 			</ArticleCard>
 
 			<!-- TODO: enable once add article ui is created -->

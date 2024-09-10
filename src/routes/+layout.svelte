@@ -1,4 +1,6 @@
 <script>
+	import '@fontsource/unifrakturcook';
+	import '@fontsource/unifrakturmaguntia';
 	import '../app.css';
 
 	export let data;

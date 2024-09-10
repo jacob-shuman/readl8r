@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
+	import IconButton from '$lib/components/IconButton.svelte';
 	import { type Article } from '$lib/types';
-	import Icon from '@iconify/svelte';
 
 	import { onMount } from 'svelte';
 	import ArticleCard from './ArticleCard.svelte';
 
-	export let { index, id, ttr, favicon, title, url, author, publish_date, description } =
+	export let { fake, index, id, ttr, favicon, title, url, author, publish_date, description } =
 		$$props as Article & {
 			index: number;
+			fake?: boolean;
+			authCookie: any;
 		};
 
 	let isMounted = false;
@@ -37,33 +39,30 @@
 
 	<p class="text-justify">{description}</p>
 
-	<div class="flex items-center justify-between">
-		<a class="bold text-start font-subtitle hover:underline" href={url}>
-			Read more
-			{#if ttr != null}
-				({Math.round(ttr / 60)} minutes)
-			{/if}
-		</a>
+	{#if !fake}
+		<div class="flex items-center justify-between">
+			<a class="bold text-start font-subtitle hover:underline" href={url}>
+				Read more
+				{#if ttr != null}
+					({Math.round(ttr / 60)} minutes)
+				{/if}
+			</a>
 
-		<!-- TODO: enable when delete article is implemented -->
-		<button
-			on:click={async () => {
-				// TODO: replace with password cookie
-				const password = 'this-is-the-token';
+			<IconButton
+				icon="tabler:trash-filled"
+				onclick={async () => {
+					const { status } = await fetch(`/articles/${id}/delete`, {
+						method: 'DELETE',
+						credentials: 'same-origin'
+					});
 
-				const { status } = await fetch(`/articles/${id}/delete`, {
-					method: 'DELETE',
-					headers: password ? { Authorization: `Bearer ${password}` } : undefined
-				});
-
-				if (status === 200) {
-					await invalidateAll();
-				}
-			}}
-		>
-			<Icon icon="tabler:trash-filled" class="size-4 duration-100 ease-out hover:opacity-50" />
-		</button>
-	</div>
+					if (status === 200) {
+						await invalidateAll();
+					}
+				}}
+			/>
+		</div>
+	{/if}
 </ArticleCard>
 
 <style>
