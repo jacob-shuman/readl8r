@@ -4,6 +4,10 @@ import { fail, redirect } from '@sveltejs/kit';
 import { SignJWT } from 'jose';
 
 export const load = async ({ cookies }) => {
+	if (!env.PASSWORD) {
+		return redirect(303, '/');
+	}
+
 	const authCookie = cookies.get('auth');
 
 	if (authCookie) {

@@ -8,5 +8,5 @@ export const load: LayoutServerLoad = async ({ cookies }) => {
 		return redirect(302, '/login');
 	}
 
-	return { authCookie: cookies.get('auth') };
+	return { authCookie: cookies.get('auth'), usesAuth: Boolean(env.PASSWORD) };
 };

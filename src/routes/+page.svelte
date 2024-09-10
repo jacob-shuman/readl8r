@@ -52,8 +52,10 @@
 				<IconButton icon="tabler:rss" href="/rss.xml" />
 				<IconButton icon="tabler:atom" href="/atom" />
 				<IconButton icon="tabler:json" href="/json" />
-				<span>•</span>
-				<IconButton icon="tabler:logout" href="/logout" />
+				{#if data.usesAuth}
+					<span>•</span>
+					<IconButton icon="tabler:logout" href="/logout" />
+				{/if}
 			</div>
 		</section>
 	</header>
