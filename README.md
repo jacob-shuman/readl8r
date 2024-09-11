@@ -102,11 +102,12 @@ You can add an article by providing the article's url in the body of a `POST` re
 
 ### Responses
 
-| Status | StatusText                               | Body        | Content-Type       |
-| ------ | ---------------------------------------- | ----------- | ------------------ |
-| 200    | `article added successfully`             | `undefined` | `application/json` |
-| 400    | `url is required`                        | `undefined` | `undefined`        |
-| 400    | `Unable to extract metadata at "${url}"` | `undefined` | `undefined`        |
+| Status | StatusText                            | Body        | Content-Type       |
+| ------ | ------------------------------------- | ----------- | ------------------ |
+| 200    | `article added successfully`          | `undefined` | `application/json` |
+| 400    | `url is required`                     | `undefined` | `undefined`        |
+| 400    | `unable to extract metadata at {url}` | `undefined` | `undefined`        |
+| 401    | `not authorized"`                     | `undefined` | `undefined`        |
 
 ## :page_facing_up: Get a single `JSON` article
 
@@ -118,10 +119,11 @@ You can get a single `JSON` object representing an article by making a `GET` req
 
 ### Responses
 
-| Status | StatusText                           | Body        | Content-Type       |
-| ------ | ------------------------------------ | ----------- | ------------------ |
-| 200    | `undefined`                          | `Article`   | `application/json` |
-| 404    | `there is no article with id of :id` | `undefined` | `undefined`        |
+| Status | StatusText                                | Body        | Content-Type       |
+| ------ | ----------------------------------------- | ----------- | ------------------ |
+| 200    | `undefined`                               | `Article`   | `application/json` |
+| 401    | `not authorized"`                         | `undefined` | `undefined`        |
+| 404    | `there is no article with an id of ":id"` | `undefined` | `undefined`        |
 
 ## :clipboard: Get a `JSON` array of all articles
 
@@ -133,9 +135,10 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 
 ### Responses
 
-| Status | StatusText  | Body        | Content-Type       |
-| ------ | ----------- | ----------- | ------------------ |
-| 200    | `undefined` | `Article[]` | `application/json` |
+| Status | StatusText        | Body        | Content-Type       |
+| ------ | ----------------- | ----------- | ------------------ |
+| 200    | `undefined`       | `Article[]` | `application/json` |
+| 401    | `not authorized"` | `undefined` | `undefined`        |
 
 ## :memo: Update an article
 
@@ -168,6 +171,7 @@ You can update an article based on it's id by making a `PATCH` request to the `/
 | Status | StatusText                           | Body        | Content-Type |
 | ------ | ------------------------------------ | ----------- | ------------ |
 | 200    | `article :id deleted successfully`   | `undefined` | `undefined`  |
+| 401    | `not authorized"`                    | `undefined` | `undefined`  |
 | 404    | `there is no article with id of :id` | `undefined` | `undefined`  |
 
 ## :wastebasket: Delete an article
@@ -183,21 +187,48 @@ You can delete an article based on it's id by making a `DELETE` request to the `
 | Status | StatusText                           | Body        | Content-Type |
 | ------ | ------------------------------------ | ----------- | ------------ |
 | 200    | `article :id deleted successfully`   | `undefined` | `undefined`  |
+| 401    | `not authorized`                     | `undefined` | `undefined`  |
 | 404    | `there is no article with id of :id` | `undefined` | `undefined`  |
 
 ## :wastebasket: Remove all articles
 
 **Requires Authentication**
 
-`Content-Type: application/xml+rss`
-
 `DELETE (http|https)://HOST:PORT/articles/clear`
 
 ### Responses
 
-| Status | StatusText                      | Body        | Content-Type |
-| ------ | ------------------------------- | ----------- | ------------ |
-| 200    | `articles cleared successfully` | `undefined` | `undefined`  |
+| Status | StatusText                        | Body        | Content-Type |
+| ------ | --------------------------------- | ----------- | ------------ |
+| 200    | `x articles cleared successfully` | `undefined` | `undefined`  |
+| 401    | `not authorized`                  | `undefined` | `undefined`  |
+
+## :wastebasket: Purge old articles
+
+**Requires Authentication**
+
+You can manually purge articles older than a certain threshhold using the `/articles/purge` route. Simply pass an `older_than` query parameter in the url with the following format:
+
+```
+h = hours
+d = days
+m = months
+y = years
+
+<integer>h|d|m|y
+```
+
+> Please note the `older_than` parameter does **not** accept numbers with decimals.
+
+`DELETE (http|https)://HOST:PORT/articles/purge?older_than=<number>(h|d|m|y)`
+
+### Responses
+
+| Status | StatusText                                                     | Body        | Content-Type |
+| ------ | -------------------------------------------------------------- | ----------- | ------------ |
+| 200    | `x articles purged successfully`                               | `undefined` | `undefined`  |
+| 400    | `invalid format, use the formula "<number><h \| d \| m \| y>"` | `undefined` | `undefined`  |
+| 401    | `not authorized`                                               | `undefined` | `undefined`  |
 
 ## :inbox_tray: Generate RSS2 feed from articles
 
@@ -234,3 +265,15 @@ You can delete an article based on it's id by making a `DELETE` request to the `
 | Status | StatusText  | Body      | Content-Type       |
 | ------ | ----------- | --------- | ------------------ |
 | 200    | `undefined` | JSON Feed | `application/json` |
+
+## :heart: Health
+
+A simple `GET` route to see if the server is up and ready to handle incoming requests.
+
+`GET (http|https)://HOST:PORT/health`
+
+### Responses
+
+| Status | StatusText | Body        | Content-Type |
+| ------ | ---------- | ----------- | ------------ |
+| 200    | `OK`       | `undefined` | `undefined`  |
