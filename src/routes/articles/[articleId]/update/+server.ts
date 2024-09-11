@@ -1,7 +1,7 @@
 import { updateArticle } from '$lib/db';
 import { type RequestHandler } from '@sveltejs/kit';
 
-export const POST: RequestHandler = async ({ request, params }) => {
+export const PATCH: RequestHandler = async ({ request, params }) => {
 	const { articleId } = params;
 	const { article } = await request.json();
 

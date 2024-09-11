@@ -141,9 +141,9 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 
 **Requires Authentication**
 
-You can update an article based on it's id by making a `POST` request to the `/articles/:id/update` route:
+You can update an article based on it's id by making a `PATCH` request to the `/articles/:id/update` route:
 
-`POST (http|https)://HOST:PORT/articles/:id/update`
+`PATCH (http|https)://HOST:PORT/articles/:id/update`
 
 ### :weight_lifting: body
 
