@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	const { url } = await request.json();
 
 	if (!isAuthorized({ request, cookies })) {
-		return new Response(undefined, { status: 401, statusText: 'Missing bearer token' });
+		return new Response(undefined, { status: 401, statusText: 'not authorized' });
 	} else if (!url) {
 		return new Response(undefined, { status: 400, statusText: 'url is required' });
 	}
@@ -35,6 +35,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 	return new Response(undefined, {
 		status: 400,
-		statusText: `Unable to extract metadata at "${url}"`
+		statusText: `unable to extract metadata at "${url}"`
 	});
 };

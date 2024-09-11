@@ -4,7 +4,7 @@ import { type RequestHandler } from '@sveltejs/kit';
 
 export const DELETE: RequestHandler = async ({ request, cookies }) => {
 	if (!isAuthorized({ request, cookies })) {
-		return new Response(undefined, { status: 401, statusText: 'Missing bearer token' });
+		return new Response(undefined, { status: 401, statusText: 'not authorized' });
 	}
 
 	const [{ numDeletedRows }] = await deleteAllArticles();
