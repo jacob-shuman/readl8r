@@ -6,7 +6,7 @@ export const DELETE: RequestHandler = async ({ request, params, cookies }) => {
 	const { articleId } = params;
 
 	if (!isAuthorized({ request, cookies })) {
-		return new Response(undefined, { status: 401, statusText: 'Not authorized' });
+		return new Response(undefined, { status: 401, statusText: 'not authorized' });
 	}
 
 	const [{ numDeletedRows }] = await deleteArticle(Number(articleId));
