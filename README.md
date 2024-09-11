@@ -50,7 +50,11 @@ docker compose up
 
 ### :lock: Authentication
 
-You can **optionally** protect your reading list with a password by setting the `PASSWORD` and `AUTH_SECRET` env variables in your compose config. This will protect all routes excluding feed routes (`/rss`, `/atom`, etc). I'm still looking into how rss aggregators generally handle auth for feeds and only want to add auth when it doesn't prevent aggregators from accessing reading lists.
+You can **optionally** protect your reading list with a password by setting the `PASSWORD` and `AUTH_SECRET` environment variables in your docker compose config.
+
+This will protect all routes excluding feed routes (`/rss`, `/atom`, etc).
+
+I'm still looking into how rss aggregators generally handle auth for feeds and only want to add auth when it doesn't prevent aggregators from accessing reading lists.
 
 ## Stucture of an article
 
