@@ -10,6 +10,7 @@ export default {
 				blacker: '#151515',
 				white: '#FAF9F6',
 				gray: '#E6E5E2',
+				'gray-light': '#757575',
 				highlight: '#FBF719',
 				'highlight-dark': '#FF793B',
 				highlighted: '#646302',

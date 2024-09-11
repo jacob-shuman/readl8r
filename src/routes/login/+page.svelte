@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
-	import tw from 'clsx';
+	import TextField from '$lib/components/TextField.svelte';
+	import { debounce } from 'radash';
 	import { onMount } from 'svelte';
 	import Article from '../Article.svelte';
 	import ArticleCard from '../ArticleCard.svelte';
@@ -97,10 +98,13 @@
 		'Members only, trespassers will be mocked.'
 	];
 	const subtitle = subtitles[Math.floor(Math.random() * subtitles.length)];
+	let i = 0;
 
 	onMount(() => {
 		isMounted = true;
 	});
+
+	const handleSubmit = debounce({ delay: 200 }, () => {});
 </script>
 
 {#if isMounted}
@@ -113,25 +117,15 @@
 			</div>
 
 			<!-- TODO: implement debounced submission -->
-			<form method="POST" use:enhance>
-				<div class="mb-4">
-					<label for="password" class={tw('flex flex-col', form?.passwordError && 'text-red-400')}>
-						{#if form?.passwordError}
-							<span>{form?.passwordError}</span>
-						{:else}
-							<span>Password</span>
-						{/if}
-					</label>
-
-					<!-- TODO: move #757575 to tailwind config -->
-					<input
-						required
-						type="password"
-						name="password"
-						placeholder="••••••••"
-						class="mt-2 w-full border border-dashed border-[#757575] bg-transparent p-3 font-mono text-lg duration-100 ease-out hover:border-solid focus:border-solid focus:border-white focus:outline-none motion-safe:transition-all"
-					/>
-				</div>
+			<form method="POST" use:enhance class="flex flex-col gap-y-4" on:submit={handleSubmit}>
+				<TextField
+					label="Password"
+					required
+					type="password"
+					name="password"
+					placeholder="••••••••"
+					error={form?.passwordError}
+				/>
 
 				<Button type="submit">Submit</Button>
 			</form>

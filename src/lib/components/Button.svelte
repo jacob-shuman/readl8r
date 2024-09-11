@@ -7,9 +7,8 @@
 	export let classes: string | undefined = undefined;
 	export { classes as class };
 
-	// TODO: move #757575 to tailwind config
 	const buttonClasses =
-		'text-center w-full border border-dashed border-[#757575] py-3 font-bold transition duration-100 ease-out hover:border-solid hover:underline focus:border-solid focus:border-white focus:underline focus:outline-none motion-safe:transition-all';
+		'text-center w-full border border-dashed border-gray-light py-3 font-bold transition duration-100 ease-out hover:border-solid hover:underline focus:border-solid focus:border-white focus:underline focus:outline-none motion-safe:transition-all';
 </script>
 
 {#if href}
