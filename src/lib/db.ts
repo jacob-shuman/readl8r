@@ -103,36 +103,29 @@ export async function deleteAllArticles(): Promise<DeleteResult[]> {
 }
 
 export async function purgeArticles(
-	unit: 'hours' | 'days' | 'months' | 'years',
+	period: 'h' | 'd' | 'm' | 'y',
 	amount: number
-	// ): Promise<DeleteResult[]> {
-): Promise<Article[]> {
+): Promise<DeleteResult[]> {
 	const db = await getDb();
 
 	const purgeDate = new Date();
-	switch (unit) {
-		case 'hours':
+	switch (period) {
+		case 'h':
 			purgeDate.setHours(purgeDate.getHours() - amount);
 			break;
-		case 'days':
+		case 'd':
 			purgeDate.setDate(purgeDate.getDate() - amount);
 			break;
-		case 'months':
+		case 'm':
 			purgeDate.setMonth(purgeDate.getMonth() - amount);
 			break;
-		case 'years':
+		case 'y':
 			purgeDate.setFullYear(purgeDate.getFullYear() - amount);
 			break;
 	}
 
-	// return await db
-	// 	.deleteFrom('articles')
-	// 	.where('added_date', '<', purgeDate.toISOString())
-	// 	.execute();
-
 	return await db
-		.selectFrom('articles')
-		.selectAll()
+		.deleteFrom('articles')
 		.where('added_date', '<', purgeDate.toISOString())
 		.execute();
 }
