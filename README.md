@@ -11,7 +11,7 @@
 
 - :heavy_plus_sign: [Add an article](#heavy_plus_sign-add-an-article) by making a `POST` request (with `url` in a `JSON` body) to `/articles/add`.
 - :clipboard: [Get a `JSON` array of all articles](#clipboard-get-a-json-array-of-all-articles) by making a `GET` request to `/articles`.
-- :no_entry_sign: [Remove all articles](#no_entry_sign-remove-all-articles) by making a `DELETE` request to `/articles/clear`.
+- :wastebasket: [Remove all articles](#wastebasket-remove-all-articles) by making a `DELETE` request to `/articles/clear`.
 - :file_cabinet: All articles are stored in a `/data/local.sqlite` SQLite database.
 - :inbox_tray: Get an [RSS](https://www.rssboard.org/rss-specification), [Atom](https://validator.w3.org/feed/docs/atom.html), and [JSON](https://www.jsonfeed.org/) feed of articles at [`/rss`](#inbox_tray-generate-rss2-feed-from-articles), [`/atom`](#inbox_tray-generate-atom-feed-from-articles), and [`/json`](#inbox_tray-generate-json-feed-from-articles) respectively.
 
