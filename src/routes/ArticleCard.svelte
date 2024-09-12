@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let isMounted = false;
+	import type { Snippet } from 'svelte';
+
+	let { isMounted = false, children }: { isMounted?: boolean; children: Snippet } = $props();
 </script>
 
 <article
@@ -7,7 +9,7 @@
 	class:faded={isMounted}
 	class:opacity-0={!isMounted}
 >
-	<slot />
+	{@render children()}
 </article>
 
 <style>

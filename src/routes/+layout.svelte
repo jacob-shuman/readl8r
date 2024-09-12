@@ -3,13 +3,12 @@
 	import '@fontsource/unifrakturmaguntia';
 	import '../app.css';
 
-	export let data;
-	$: ({ title, description } = data);
+	let { data, children } = $props();
 </script>
 
 <svelte:head>
-	<title>{title}</title>
-	<meta name="description" content={description} />
+	<title>{data.title}</title>
+	<meta name="description" content={data.description} />
 </svelte:head>
 
-<slot />
+{@render children()}

@@ -2,18 +2,26 @@
 	import { invalidateAll } from '$app/navigation';
 	import IconButton from '$lib/components/IconButton.svelte';
 	import { type Article } from '$lib/types';
-
 	import { onMount } from 'svelte';
 	import ArticleCard from './ArticleCard.svelte';
 
-	export let { fake, index, id, ttr, favicon, title, url, author, publish_date, description } =
-		$$props as Article & {
-			index: number;
-			fake?: boolean;
-			authCookie: any;
-		};
-
-	let isMounted = false;
+	let {
+		fake,
+		index,
+		id,
+		ttr,
+		favicon,
+		title,
+		url,
+		author,
+		publish_date,
+		description
+	}: Article & {
+		index: number;
+		fake?: boolean;
+		authCookie: any;
+	} = $props();
+	let isMounted = $state(false);
 
 	onMount(() => {
 		setTimeout(() => (isMounted = true), 500 + 15 * index);
@@ -64,18 +72,3 @@
 		</div>
 	{/if}
 </ArticleCard>
-
-<style>
-	@keyframes fade {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 100;
-		}
-	}
-
-	.faded {
-		animation: 500ms fade ease-out;
-	}
-</style>
