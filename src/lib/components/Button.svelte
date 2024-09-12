@@ -1,11 +1,19 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { twMerge } from 'tailwind-merge';
 
-	export let type: HTMLButtonAttributes['type'] = undefined;
-	export let href: string | undefined = undefined;
-	export let classes: string | undefined = undefined;
-	export { classes as class };
+	let {
+		type,
+		href,
+		children,
+		class: classes
+	}: {
+		children: Snippet;
+		type?: HTMLButtonAttributes['type'];
+		href?: string;
+		class?: string;
+	} = $props();
 
 	const buttonClasses =
 		'text-center w-full border border-dashed border-gray-light py-3 font-bold transition duration-100 ease-out hover:border-solid hover:underline focus:border-solid focus:border-white focus:underline focus:outline-none motion-safe:transition-all';
@@ -13,10 +21,10 @@
 
 {#if href}
 	<a {href} class={twMerge(buttonClasses, classes)}>
-		<slot />
+		{@render children()}
 	</a>
 {:else}
 	<button {type} class={twMerge(buttonClasses, classes)}>
-		<slot />
+		{@render children()}
 	</button>
 {/if}

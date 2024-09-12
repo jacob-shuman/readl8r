@@ -5,10 +5,8 @@
 	import Article from './Article.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 
-	export let data;
-	$: ({ title, articles, description } = data);
-
-	let isMounted = false;
+	let { data } = $props();
+	let isMounted = $state(false);
 
 	onMount(() => {
 		isMounted = true;
@@ -30,11 +28,11 @@
 {#if isMounted}
 	<header
 		class="flex w-full flex-col border-b border-gray dark:border-black"
-		class:fade-header={isMounted}
+		class:faded={isMounted}
 	>
 		<section class="flex flex-col gap-y-1 bg-gray p-page dark:bg-black dark:text-white">
-			<h1 class="font-title text-4xl">{title}</h1>
-			<p><i>{description}</i></p>
+			<h1 class="font-title text-4xl">{data.title}</h1>
+			<p><i>{data.description}</i></p>
 		</section>
 
 		<section
@@ -44,7 +42,7 @@
 				<i>{new Date().toDateString()}</i>
 				<span>•</span>
 				<i>
-					{articles.length} Article{articles.length !== 1 ? 's' : ''}
+					{data.articles.length} Article{data.articles.length !== 1 ? 's' : ''}
 				</i>
 			</p>
 
@@ -61,8 +59,8 @@
 	</header>
 
 	<main class="gap-x-0 sm:columns-2 xl:columns-3">
-		{#if articles.length > 0}
-			{#each articles as article, index}
+		{#if data.articles.length > 0}
+			{#each data.articles as article, index}
 				<Article {...article} {index} authCookie={data.authCookie} />
 			{/each}
 		{:else}
@@ -86,15 +84,16 @@
 			</ArticleCard>
 
 			<!-- TODO: enable once add article ui is created -->
-			<!-- <ArticleCard {isMounted}>
+			<ArticleCard {isMounted}>
 				<h2 class="flex items-start gap-x-2 font-title text-2xl">Not a developer? No Problem!</h2>
 
-				<a class="text-justify hover:underline" href="/articles/add">
+				<!-- <form method="POST" use:enhance></form> -->
+				<!-- <a class="text-justify hover:underline" href="/articles/add">
 					Click here to add a new article
 				</a> -->
 
-			<!-- TODO: include an option to quickly add an article here by url -->
-			<!-- </ArticleCard> -->
+				<!-- TODO: include an option to quickly add an article here by url -->
+			</ArticleCard>
 		{/if}
 	</main>
 {/if}
@@ -111,7 +110,7 @@
 		}
 	}
 
-	.fade-header {
+	.faded {
 		animation: 250ms fade ease-out;
 	}
 </style>

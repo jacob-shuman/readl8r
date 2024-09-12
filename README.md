@@ -75,7 +75,7 @@ I'm still looking into how rss aggregators generally handle auth for feeds and o
 
 ## :heavy_plus_sign: Add an article
 
-**Requires Authentication**
+:lock: **Requires Authentication**
 
 You can add an article by providing the article's url in the body of a `POST` request:
 
@@ -111,11 +111,11 @@ You can add an article by providing the article's url in the body of a `POST` re
 | 200    | `article added successfully`          | `undefined` | `application/json` |
 | 400    | `url is required`                     | `undefined` | `undefined`        |
 | 400    | `unable to extract metadata at {url}` | `undefined` | `undefined`        |
-| 401    | `not authorized"`                     | `undefined` | `undefined`        |
+| 401    | `not authorized`                      | `undefined` | `undefined`        |
 
 ## :page_facing_up: Get a single `JSON` article
 
-**Requires Authentication**
+:lock: **Requires Authentication**
 
 You can get a single `JSON` object representing an article by making a `GET` request to the `/articles/:id` route:
 
@@ -126,12 +126,12 @@ You can get a single `JSON` object representing an article by making a `GET` req
 | Status | StatusText                                | Body        | Content-Type       |
 | ------ | ----------------------------------------- | ----------- | ------------------ |
 | 200    | `undefined`                               | `Article`   | `application/json` |
-| 401    | `not authorized"`                         | `undefined` | `undefined`        |
+| 401    | `not authorized`                          | `undefined` | `undefined`        |
 | 404    | `there is no article with an id of ":id"` | `undefined` | `undefined`        |
 
 ## :clipboard: Get a `JSON` array of all articles
 
-**Requires Authentication**
+:lock: **Requires Authentication**
 
 You can get a `JSON` array of articles by making a `GET` request to the `/articles` route:
 
@@ -139,14 +139,14 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 
 ### Responses
 
-| Status | StatusText        | Body        | Content-Type       |
-| ------ | ----------------- | ----------- | ------------------ |
-| 200    | `undefined`       | `Article[]` | `application/json` |
-| 401    | `not authorized"` | `undefined` | `undefined`        |
+| Status | StatusText       | Body        | Content-Type       |
+| ------ | ---------------- | ----------- | ------------------ |
+| 200    | `undefined`      | `Article[]` | `application/json` |
+| 401    | `not authorized` | `undefined` | `undefined`        |
 
 ## :memo: Update an article
 
-**Requires Authentication**
+:lock: **Requires Authentication**
 
 You can update an article based on it's id by making a `PATCH` request to the `/articles/:id/update` route:
 
@@ -175,12 +175,12 @@ You can update an article based on it's id by making a `PATCH` request to the `/
 | Status | StatusText                           | Body        | Content-Type |
 | ------ | ------------------------------------ | ----------- | ------------ |
 | 200    | `article :id deleted successfully`   | `undefined` | `undefined`  |
-| 401    | `not authorized"`                    | `undefined` | `undefined`  |
+| 401    | `not authorized`                     | `undefined` | `undefined`  |
 | 404    | `there is no article with id of :id` | `undefined` | `undefined`  |
 
 ## :wastebasket: Delete an article
 
-**Requires Authentication**
+:lock: **Requires Authentication**
 
 You can delete an article based on it's id by making a `DELETE` request to the `/articles/:id/delete` route:
 
@@ -196,7 +196,7 @@ You can delete an article based on it's id by making a `DELETE` request to the `
 
 ## :wastebasket: Remove all articles
 
-**Requires Authentication**
+:lock: **Requires Authentication**
 
 `DELETE (http|https)://HOST:PORT/articles/clear`
 
@@ -209,7 +209,7 @@ You can delete an article based on it's id by making a `DELETE` request to the `
 
 ## :wastebasket: Purge old articles
 
-**Requires Authentication**
+:lock: **Requires Authentication**
 
 You can manually purge articles older than a certain threshhold using the `/articles/purge` route. Simply pass an `older_than` query parameter in the url with the following format:
 
@@ -220,6 +220,12 @@ m = months
 y = years
 
 <integer>h|d|m|y
+
+Examples
+
+30d = 30 days
+4m  = 4 months
+2y  = 2 years
 ```
 
 > Please note the `older_than` parameter does **not** accept numbers with decimals.

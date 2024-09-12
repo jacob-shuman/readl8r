@@ -2,9 +2,15 @@
 	import Icon, { type IconifyIcon } from '@iconify/svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
-	export let icon: IconifyIcon | string;
-	export let href: string | undefined = undefined;
-	export let onclick: HTMLButtonAttributes['on:click'] | undefined = undefined;
+	let {
+		icon,
+		href,
+		onclick
+	}: {
+		icon: IconifyIcon | string;
+		href?: string | undefined;
+		onclick?: HTMLButtonAttributes['onclick'];
+	} = $props();
 
 	// TODO: add a more accessible focus state
 	const interactiveClasses =
@@ -12,12 +18,16 @@
 	const iconClasses = 'size-4';
 </script>
 
+{#snippet _icon()}
+	<Icon {icon} class={iconClasses} />
+{/snippet}
+
 {#if href}
 	<a {href} class={interactiveClasses}>
-		<Icon {icon} class={iconClasses} />
+		{@render _icon()}
 	</a>
 {:else}
-	<button on:click={onclick} class={interactiveClasses}>
-		<Icon {icon} class={iconClasses} />
+	<button {onclick} class={interactiveClasses}>
+		{@render _icon()}
 	</button>
 {/if}
