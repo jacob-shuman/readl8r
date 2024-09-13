@@ -1,17 +1,15 @@
 import { env } from '$env/dynamic/private';
-import { verifyJwt } from '$lib/auth';
+import { isAuthorized } from '$lib/auth';
 import { fail, redirect } from '@sveltejs/kit';
 import { SignJWT } from 'jose';
 
-export const load = async ({ cookies }) => {
+export const load = async ({ request, cookies }) => {
 	if (!env.PASSWORD) {
 		return redirect(303, '/');
 	}
 
-	const authCookie = cookies.get('auth');
-
-	if (authCookie) {
-		if (await verifyJwt(authCookie)) {
+	if (cookies.get('auth')) {
+		if (await isAuthorized({ request, cookies })) {
 			return redirect(303, '/');
 		} else {
 			cookies.delete('auth', { path: '/' });
