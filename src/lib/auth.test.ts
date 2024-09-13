@@ -2,7 +2,7 @@ import { env } from '$env/dynamic/private';
 import type { Cookies } from '@sveltejs/kit';
 import { SignJWT } from 'jose';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { isAuthorized } from './auth';
+import { isAuthorized, verifyJwt } from './auth';
 
 const password = 'password123';
 const authSecret = 'super-duper-secret';
@@ -61,6 +61,7 @@ describe('isAuthorized()', () => {
 		env.PASSWORD = password;
 		env.AUTH_SECRET = authSecret;
 
+		expect(await verifyJwt(cookies.get('auth'))).toEqual(true);
 		expect(await isAuthorized({ cookies })).toEqual(true);
 	});
 
@@ -77,6 +78,7 @@ describe('isAuthorized()', () => {
 		env.PASSWORD = password;
 		env.AUTH_SECRET = authSecret;
 
+		expect(await verifyJwt(cookies.get('auth'))).toEqual(false);
 		expect(await isAuthorized({ cookies })).toEqual(false);
 	});
 
@@ -93,6 +95,7 @@ describe('isAuthorized()', () => {
 		env.PASSWORD = password;
 		env.AUTH_SECRET = authSecret;
 
+		expect(await verifyJwt(cookies.get('auth'))).toEqual(false);
 		expect(await isAuthorized({ cookies })).toEqual(false);
 	});
 });
