@@ -4,7 +4,7 @@ import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ request, cookies }) => {
-	if (await isAuthorized({ request, cookies })) {
+	if (!(await isAuthorized({ request, cookies }))) {
 		return redirect(302, '/login');
 	}
 
