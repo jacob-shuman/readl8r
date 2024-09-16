@@ -5,6 +5,25 @@
 
 # readl8r
 
+<a href="https://kit.svelte.dev/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/sveltekit-202020?style=for-the-badge&logo=svelte" />
+    <img alt="svelte badge" src="https://img.shields.io/badge/sveltekit-f0f0f0?style=for-the-badge&logo=svelte" />
+  </picture>
+</a>
+<a href="https://tailwindcss.com/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/tailwind_css-202020?style=for-the-badge&logo=tailwindcss" />
+    <img alt="tailwindcss badge" src="https://img.shields.io/badge/tailwind_css-f0f0f0?style=for-the-badge&logo=tailwindcss" />
+  </picture>
+</a>
+<a href="https://www.docker.com/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/docker-202020?style=for-the-badge&logo=docker" />
+    <img alt="docker badge" src="https://img.shields.io/badge/docker-f0f0f0?style=for-the-badge&logo=docker" />
+  </picture>
+</a>
+
 > A no-nonsense read later service
 
 ## :star: Features
