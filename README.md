@@ -1,6 +1,6 @@
 <picture>
-	<source media="(prefers-color-scheme: dark)" srcset="./static/favicon-light.svg" />
-	<img alt="logo" src="./static/favicon-dark.svg" width="128px" />
+	<source media="(prefers-color-scheme: dark)" srcset="./static/favicon-dark.svg" />
+	<img alt="logo" src="./static/favicon-light.svg" width="128px" />
 </picture>
 
 # readl8r
