@@ -8,7 +8,7 @@ export async function isAuthorized({
 }: {
 	request?: Request;
 	cookies?: Cookies;
-}): Promise<boolean> {
+} = {}): Promise<boolean> {
 	return (
 		await Promise.all([
 			// No password is set

@@ -47,12 +47,12 @@
 			</p>
 
 			<div class="flex items-center gap-x-4">
-				<IconButton icon="tabler:rss" href="/rss.xml" />
-				<IconButton icon="tabler:atom" href="/atom" />
-				<IconButton icon="tabler:json" href="/json" />
+				<IconButton tooltip="RSS Feed" icon="tabler:rss" href="/rss.xml" />
+				<IconButton tooltip="Atom Feed" icon="tabler:atom" href="/atom" />
+				<IconButton tooltip="JSON Feed" icon="tabler:json" href="/json" />
 				{#if data.usesAuth}
 					<span>•</span>
-					<IconButton icon="tabler:logout" href="/logout" />
+					<IconButton tooltip="Logout" icon="tabler:logout" href="/logout" />
 				{/if}
 			</div>
 		</section>

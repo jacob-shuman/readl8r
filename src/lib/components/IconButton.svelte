@@ -1,13 +1,16 @@
 <script lang="ts">
 	import Icon, { type IconifyIcon } from '@iconify/svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
+	import Tooltip from './Tooltip.svelte';
 
 	let {
 		icon,
+		tooltip,
 		href,
 		onclick
 	}: {
 		icon: IconifyIcon | string;
+		tooltip: string;
 		href?: string | undefined;
 		onclick?: HTMLButtonAttributes['onclick'];
 	} = $props();
@@ -22,12 +25,18 @@
 	<Icon {icon} class={iconClasses} />
 {/snippet}
 
-{#if href}
-	<a {href} class={interactiveClasses}>
-		{@render _icon()}
-	</a>
-{:else}
-	<button {onclick} class={interactiveClasses}>
-		{@render _icon()}
-	</button>
-{/if}
+{#snippet _interactiveElement(builder?: any)}
+	{#if href}
+		<a {href} class={interactiveClasses} use:builder.action {...builder}>
+			{@render _icon()}
+		</a>
+	{:else}
+		<button {onclick} class={interactiveClasses} use:builder.action {...builder}>
+			{@render _icon()}
+		</button>
+	{/if}
+{/snippet}
+
+<Tooltip message={tooltip} let:builder>
+	{@render _interactiveElement(builder)}
+</Tooltip>

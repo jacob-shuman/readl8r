@@ -57,6 +57,7 @@
 			</a>
 
 			<IconButton
+				tooltip="Delete Article"
 				icon="tabler:trash-filled"
 				onclick={async () => {
 					const { status } = await fetch(`/articles/${id}/delete`, {

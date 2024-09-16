@@ -102,30 +102,34 @@ export async function deleteAllArticles(): Promise<DeleteResult[]> {
 	return await db.deleteFrom('articles').execute();
 }
 
+export function getPurgeDate(period: 'h' | 'd' | 'm' | 'y', amount: number): Date {
+	const date = new Date();
+
+	switch (period) {
+		case 'h':
+			date.setHours(date.getHours() - amount);
+			break;
+		case 'd':
+			date.setDate(date.getDate() - amount);
+			break;
+		case 'm':
+			date.setMonth(date.getMonth() - amount);
+			break;
+		case 'y':
+			date.setFullYear(date.getFullYear() - amount);
+			break;
+	}
+
+	return date;
+}
 export async function purgeArticles(
 	period: 'h' | 'd' | 'm' | 'y',
 	amount: number
 ): Promise<DeleteResult[]> {
 	const db = await getDb();
 
-	const purgeDate = new Date();
-	switch (period) {
-		case 'h':
-			purgeDate.setHours(purgeDate.getHours() - amount);
-			break;
-		case 'd':
-			purgeDate.setDate(purgeDate.getDate() - amount);
-			break;
-		case 'm':
-			purgeDate.setMonth(purgeDate.getMonth() - amount);
-			break;
-		case 'y':
-			purgeDate.setFullYear(purgeDate.getFullYear() - amount);
-			break;
-	}
-
 	return await db
 		.deleteFrom('articles')
-		.where('added_date', '<', purgeDate.toISOString())
+		.where('added_date', '<', getPurgeDate(period, amount).toISOString())
 		.execute();
 }
