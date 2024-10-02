@@ -37,9 +37,9 @@
 		{placeholder}
 		class={tw(
 			'duration-100 ease-out motion-safe:transition-all',
-			'w-full bg-transparent p-3 font-mono text-lg',
+			'w-full bg-transparent p-3 text-lg',
 			'border border-dashed border-gray-light hover:border-solid',
-			'focus:border-solid focus:border-white focus:outline-none'
+			'focus:border-solid focus:border-blacker focus:outline-none focus:dark:border-white'
 		)}
 	/>
 </div>
