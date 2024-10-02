@@ -8,11 +8,13 @@
 		name,
 		placeholder,
 		label,
-		error
+		error,
+		value = $bindable()
 	}: {
 		required?: HTMLInputAttributes['required'];
 		type?: HTMLInputAttributes['type'];
 		name?: HTMLInputAttributes['name'];
+		value?: HTMLInputAttributes['value'];
 		placeholder?: HTMLInputAttributes['placeholder'];
 		label?: string;
 		error?: string;
@@ -35,6 +37,7 @@
 		{type}
 		{name}
 		{placeholder}
+		bind:value
 		class={tw(
 			'duration-100 ease-out motion-safe:transition-all',
 			'w-full bg-transparent p-3 text-lg',
