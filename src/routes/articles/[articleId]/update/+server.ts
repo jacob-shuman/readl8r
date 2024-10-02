@@ -1,28 +1,23 @@
 import { isAuthorized } from '$lib/auth';
 import { updateArticle } from '$lib/db';
-import { type RequestHandler } from '@sveltejs/kit';
+import { json, text, type RequestHandler } from '@sveltejs/kit';
 
 export const PATCH: RequestHandler = async ({ request, params, cookies }) => {
 	const { articleId } = params;
 	const { article } = await request.json();
 
 	if (!(await isAuthorized({ request, cookies }))) {
-		return new Response(undefined, { status: 401, statusText: 'not authorized' });
+		return text('not authorized', { status: 401, headers: { 'Content-Type': 'text/plain' } });
 	}
 
-	const updatedArticle = updateArticle(Number(articleId), article);
+	const updatedArticle = await updateArticle(Number(articleId), article);
 
 	if (!updatedArticle) {
-		return new Response(undefined, {
+		return text(`there is no article with id of ${articleId}`, {
 			status: 404,
-			statusText: `there is no article with id of ${articleId}`
+			headers: { 'Content-Type': 'text/plain' }
 		});
 	}
 
-	return new Response(JSON.stringify(updatedArticle), {
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		status: 200
-	});
+	return json(updatedArticle, { status: 200 });
 };

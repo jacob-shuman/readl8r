@@ -1,25 +1,22 @@
 import { isAuthorized } from '$lib/auth';
 import { getArticle } from '$lib/db';
-import { type RequestHandler } from '@sveltejs/kit';
+import { json, text, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params, request, cookies }) => {
 	const { articleId } = params;
 
 	if (!(await isAuthorized({ request, cookies }))) {
-		return new Response(undefined, { status: 401, statusText: 'not authorized' });
+		return text('not authorized', { status: 401, headers: { 'Content-Type': 'text/plain' } });
 	}
 
-	const article = getArticle(Number(articleId));
+	const article = await getArticle(Number(articleId));
 
 	if (!article) {
-		return new Response(undefined, {
+		return text(`there is no article with an id of "${articleId}"`, {
 			status: 404,
-			statusText: `there is no article with an id of "${articleId}"`
+			headers: { 'Content-Type': 'text/plain' }
 		});
 	}
 
-	return new Response(JSON.stringify(article), {
-		headers: { 'Content-Type': 'application/json' },
-		status: 200
-	});
+	return json(article, { status: 200 });
 };

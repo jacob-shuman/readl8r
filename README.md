@@ -92,6 +92,8 @@ I'm still looking into how rss aggregators generally handle auth for feeds and o
 }
 ```
 
+> For the most up to date definition, see [the actual typescript type](./src/lib/types.ts#L16).
+
 ## :heavy_plus_sign: Add an article
 
 :lock: **Requires Authentication**
@@ -125,12 +127,12 @@ You can add an article by providing the article's url in the body of a `POST` re
 
 ### Responses
 
-| Status | StatusText                            | Body        | Content-Type       |
-| ------ | ------------------------------------- | ----------- | ------------------ |
-| 200    | `article added successfully`          | `undefined` | `application/json` |
-| 400    | `url is required`                     | `undefined` | `undefined`        |
-| 400    | `unable to extract metadata at {url}` | `undefined` | `undefined`        |
-| 401    | `not authorized`                      | `undefined` | `undefined`        |
+| Status | Body                                  | Content-Type |
+| ------ | ------------------------------------- | ------------ |
+| 200    | `article added successfully`          | `text/plain` |
+| 400    | `url is required`                     | `text/plain` |
+| 400    | `unable to extract metadata at {url}` | `text/plain` |
+| 401    | `not authorized`                      | `text/plain` |
 
 ## :page_facing_up: Get a single `JSON` article
 
@@ -142,11 +144,11 @@ You can get a single `JSON` object representing an article by making a `GET` req
 
 ### Responses
 
-| Status | StatusText                                | Body        | Content-Type       |
-| ------ | ----------------------------------------- | ----------- | ------------------ |
-| 200    | `undefined`                               | `Article`   | `application/json` |
-| 401    | `not authorized`                          | `undefined` | `undefined`        |
-| 404    | `there is no article with an id of ":id"` | `undefined` | `undefined`        |
+| Status | Body                                      | Content-Type       |
+| ------ | ----------------------------------------- | ------------------ |
+| 200    | [Article](./src/lib/types.ts#L16)         | `application/json` |
+| 401    | `not authorized`                          | `text/plain`       |
+| 404    | `there is no article with an id of ":id"` | `text/plain`       |
 
 ## :clipboard: Get a `JSON` array of all articles
 
@@ -158,10 +160,10 @@ You can get a `JSON` array of articles by making a `GET` request to the `/articl
 
 ### Responses
 
-| Status | StatusText       | Body        | Content-Type       |
-| ------ | ---------------- | ----------- | ------------------ |
-| 200    | `undefined`      | `Article[]` | `application/json` |
-| 401    | `not authorized` | `undefined` | `undefined`        |
+| Status | Body                                | Content-Type       |
+| ------ | ----------------------------------- | ------------------ |
+| 200    | [Article[]](./src/lib/types.ts#L16) | `application/json` |
+| 401    | `not authorized`                    | `text/plain`       |
 
 ## :memo: Update an article
 
@@ -191,11 +193,11 @@ You can update an article based on it's id by making a `PATCH` request to the `/
 
 ### Responses
 
-| Status | StatusText                           | Body        | Content-Type |
-| ------ | ------------------------------------ | ----------- | ------------ |
-| 200    | `article :id deleted successfully`   | `undefined` | `undefined`  |
-| 401    | `not authorized`                     | `undefined` | `undefined`  |
-| 404    | `there is no article with id of :id` | `undefined` | `undefined`  |
+| Status | Body                                 | Content-Type |
+| ------ | ------------------------------------ | ------------ |
+| 200    | `article :id deleted successfully`   | `text/plain` |
+| 401    | `not authorized`                     | `text/plain` |
+| 404    | `there is no article with id of :id` | `text/plain` |
 
 ## :wastebasket: Delete an article
 
@@ -207,11 +209,11 @@ You can delete an article based on it's id by making a `DELETE` request to the `
 
 ### Responses
 
-| Status | StatusText                           | Body        | Content-Type |
-| ------ | ------------------------------------ | ----------- | ------------ |
-| 200    | `article :id deleted successfully`   | `undefined` | `undefined`  |
-| 401    | `not authorized`                     | `undefined` | `undefined`  |
-| 404    | `there is no article with id of :id` | `undefined` | `undefined`  |
+| Status | Body                                 | Content-Type |
+| ------ | ------------------------------------ | ------------ |
+| 200    | `article :id deleted successfully`   | `text/plain` |
+| 401    | `not authorized`                     | `text/plain` |
+| 404    | `there is no article with id of :id` | `text/plain` |
 
 ## :wastebasket: Remove all articles
 
@@ -221,10 +223,10 @@ You can delete an article based on it's id by making a `DELETE` request to the `
 
 ### Responses
 
-| Status | StatusText                        | Body        | Content-Type |
-| ------ | --------------------------------- | ----------- | ------------ |
-| 200    | `x articles cleared successfully` | `undefined` | `undefined`  |
-| 401    | `not authorized`                  | `undefined` | `undefined`  |
+| Status | Body                              | Content-Type |
+| ------ | --------------------------------- | ------------ |
+| 200    | `x articles cleared successfully` | `text/plain` |
+| 401    | `not authorized`                  | `text/plain` |
 
 ## :wastebasket: Purge old articles
 
@@ -253,11 +255,11 @@ Examples
 
 ### Responses
 
-| Status | StatusText                                                     | Body        | Content-Type |
-| ------ | -------------------------------------------------------------- | ----------- | ------------ |
-| 200    | `x articles purged successfully`                               | `undefined` | `undefined`  |
-| 400    | `invalid format, use the formula "<number><h \| d \| m \| y>"` | `undefined` | `undefined`  |
-| 401    | `not authorized`                                               | `undefined` | `undefined`  |
+| Status | Body                                                           | Content-Type |
+| ------ | -------------------------------------------------------------- | ------------ |
+| 200    | `x articles purged successfully`                               | `text/plain` |
+| 400    | `invalid format, use the formula "<number><h \| d \| m \| y>"` | `text/plain` |
+| 401    | `not authorized`                                               | `text/plain` |
 
 ## :inbox_tray: Generate RSS2 feed from articles
 
@@ -271,9 +273,9 @@ Examples
 
 ### Responses
 
-| Status | StatusText  | Body     | Content-Type          |
-| ------ | ----------- | -------- | --------------------- |
-| 200    | `undefined` | RSS Feed | `application/rss+xml` |
+| Status | Body                                                    | Content-Type          |
+| ------ | ------------------------------------------------------- | --------------------- |
+| 200    | [RSS2 Feed](https://www.rssboard.org/rss-specification) | `application/rss+xml` |
 
 ## :inbox_tray: Generate Atom feed from articles
 
@@ -281,9 +283,9 @@ Examples
 
 ### Responses
 
-| Status | StatusText  | Body      | Content-Type           |
-| ------ | ----------- | --------- | ---------------------- |
-| 200    | `undefined` | Atom Feed | `application/atom+xml` |
+| Status | Body                                                      | Content-Type           |
+| ------ | --------------------------------------------------------- | ---------------------- |
+| 200    | [Atom Feed](https://validator.w3.org/feed/docs/atom.html) | `application/atom+xml` |
 
 ## :inbox_tray: Generate JSON feed from articles
 
@@ -291,9 +293,9 @@ Examples
 
 ### Responses
 
-| Status | StatusText  | Body      | Content-Type       |
-| ------ | ----------- | --------- | ------------------ |
-| 200    | `undefined` | JSON Feed | `application/json` |
+| Status | Body                                   | Content-Type       |
+| ------ | -------------------------------------- | ------------------ |
+| 200    | [JSON Feed](https://www.jsonfeed.org/) | `application/json` |
 
 ## :heart: Health
 
@@ -303,6 +305,6 @@ A simple `GET` route to see if the server is up and ready to handle incoming req
 
 ### Responses
 
-| Status | StatusText | Body        | Content-Type |
-| ------ | ---------- | ----------- | ------------ |
-| 200    | `OK`       | `undefined` | `undefined`  |
+| Status | Body | Content-Type |
+| ------ | ---- | ------------ |
+| 200    | `OK` | `text/plain` |

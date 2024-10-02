@@ -1,12 +1,9 @@
 import { getArticles } from '$lib/db';
 import { generateFeed } from '$lib/feed';
-import { type RequestHandler } from '@sveltejs/kit';
+import { text, type RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async () => {
-	return new Response(generateFeed(await getArticles()).atom1(), {
-		headers: {
-			'Content-Type': 'application/atom+xml'
-		},
-		status: 200
+export const GET: RequestHandler = async () =>
+	text(generateFeed(await getArticles()).atom1(), {
+		status: 200,
+		headers: { 'Content-Type': 'application/atom+xml' }
 	});
-};

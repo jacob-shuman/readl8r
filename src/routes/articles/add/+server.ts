@@ -1,15 +1,19 @@
 import { isAuthorized } from '$lib/auth';
 import { addArticle } from '$lib/db';
 import { extract } from '@extractus/article-extractor';
-import { type RequestHandler } from '@sveltejs/kit';
+import { text, type RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
+	if (!request.body) {
+		return text('url is required', { status: 400, headers: { 'Content-Type': 'text/plain' } });
+	}
+
 	const { url } = await request.json();
 
-	if (!isAuthorized({ request, cookies })) {
-		return new Response(undefined, { status: 401, statusText: 'not authorized' });
-	} else if (!url) {
-		return new Response(undefined, { status: 400, statusText: 'url is required' });
+	if (!(await isAuthorized({ request, cookies }))) {
+		return text('not authorized', { status: 401, headers: { 'Content-Type': 'text/plain' } });
+	} else if (!request.body || !url) {
+		return text('url is required', { status: 400, headers: { 'Content-Type': 'text/plain' } });
 	}
 
 	const article = await extract(url);
@@ -27,14 +31,14 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			ttr: article.ttr
 		});
 
-		return new Response(undefined, {
+		return text('article added successfully', {
 			status: 200,
-			statusText: 'article added successfully'
+			headers: { 'Content-Type': 'text/plain' }
 		});
 	}
 
-	return new Response(undefined, {
+	return text(`unable to extract metadata at "${url}"`, {
 		status: 400,
-		statusText: `unable to extract metadata at "${url}"`
+		headers: { 'Content-Type': 'text/plain' }
 	});
 };

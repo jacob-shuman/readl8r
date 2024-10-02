@@ -1,8 +1,4 @@
-import { type RequestHandler } from '@sveltejs/kit';
+import { text, type RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async () => {
-	return new Response(undefined, {
-		status: 200,
-		statusText: 'OK'
-	});
-};
+export const GET: RequestHandler = async () =>
+	text('OK', { status: 200, headers: { 'Content-Type': 'text/plain' } });
