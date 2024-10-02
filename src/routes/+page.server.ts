@@ -1,12 +1,12 @@
 import { env } from '$env/dynamic/private';
 import { isAuthorized } from '$lib/auth';
 import { redirect } from '@sveltejs/kit';
-import type { LayoutServerLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ request, cookies }) => {
+export const load: PageServerLoad = async ({ request, cookies }) => {
 	if (!(await isAuthorized({ request, cookies }))) {
 		return redirect(302, '/login');
 	}
 
-	return { authCookie: cookies.get('auth'), usesAuth: Boolean(env.PASSWORD) };
+	return { usesAuth: Boolean(env.PASSWORD) };
 };

@@ -16,11 +16,15 @@
 		author,
 		publish_date,
 		description
-	}: Article & {
-		index: number;
-		fake?: boolean;
-		authCookie: any;
-	} = $props();
+	}:
+		| (Article & {
+				index: number;
+				fake?: false;
+		  })
+		| (Partial<Article> & {
+				index: number;
+				fake: true;
+		  }) = $props();
 	let isMounted = $state(false);
 
 	onMount(() => {
