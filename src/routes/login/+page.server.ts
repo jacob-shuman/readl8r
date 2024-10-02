@@ -2,8 +2,9 @@ import { env } from '$env/dynamic/private';
 import { isAuthorized } from '$lib/auth';
 import { fail, redirect } from '@sveltejs/kit';
 import { SignJWT } from 'jose';
+import type { PageServerLoad } from './$types';
 
-export const load = async ({ request, cookies }) => {
+export const load: PageServerLoad = async ({ request, cookies }) => {
 	if (!env.PASSWORD) {
 		return redirect(303, '/');
 	}
