@@ -1,12 +1,17 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import IconButton from '$lib/components/IconButton.svelte';
+	import TextField from '$lib/components/TextField.svelte';
 	import { onMount } from 'svelte';
 	import Article from './Article.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 
 	let { data } = $props();
 	let isMounted = $state(false);
+	let loading = $state(false);
+	let addArticleUrl = $state('');
+	let addArticleError = $state<string | undefined>(undefined);
 
 	onMount(() => {
 		isMounted = true;
@@ -61,7 +66,7 @@
 	<main class="gap-x-0 sm:columns-2 xl:columns-3">
 		{#if data.articles.length > 0}
 			{#each data.articles as article, index}
-				<Article {...article} {index} authCookie={data.authCookie} />
+				<Article {...article} {index} />
 			{/each}
 		{:else}
 			<ArticleCard {isMounted}>
@@ -83,14 +88,40 @@
 				</Button>
 			</ArticleCard>
 
-			<!-- TODO: enable once add article ui is created -->
 			<ArticleCard {isMounted}>
 				<h2 class="flex items-start gap-x-2 font-title text-2xl">Not a developer? No Problem!</h2>
 
-				<!-- <form method="POST" use:enhance></form> -->
-				<!-- <a class="text-justify hover:underline" href="/articles/add">
-					Click here to add a new article
-				</a> -->
+				<div class="flex flex-col gap-y-4">
+					<TextField
+						label="Article URL"
+						required
+						type="url"
+						placeholder="https://extra.extra/"
+						error={addArticleError}
+						bind:value={addArticleUrl}
+					/>
+
+					<Button
+						{loading}
+						onclick={async () => {
+							loading = true;
+							const result = await fetch(`/articles/add`, {
+								method: 'POST',
+								body: JSON.stringify({ url: addArticleUrl })
+							});
+							loading = false;
+
+							if (result.status === 200) {
+								await invalidateAll();
+								addArticleError = undefined;
+							} else {
+								addArticleError = `${await result.text()} - ${result.status}`;
+							}
+						}}
+					>
+						Add
+					</Button>
+				</div>
 
 				<!-- TODO: include an option to quickly add an article here by url -->
 			</ArticleCard>
