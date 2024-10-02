@@ -34,7 +34,7 @@ export async function verifyJwt(token?: string): Promise<boolean> {
 	try {
 		await jwtVerify(token, secretKey);
 		return true;
-	} catch (err) {
+	} catch {
 		return false;
 	}
 }
