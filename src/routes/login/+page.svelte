@@ -7,9 +7,9 @@
 	import Article from '../Article.svelte';
 	import ArticleCard from '../ArticleCard.svelte';
 
-	export let form;
+	let { form } = $props();
+	let isMounted = $state(false);
 
-	let isMounted = false;
 	const jokeArticles: {
 		title: string;
 		publish_date: string;
@@ -98,7 +98,6 @@
 		'Members only, trespassers will be mocked.'
 	];
 	const subtitle = subtitles[Math.floor(Math.random() * subtitles.length)];
-	let i = 0;
 
 	onMount(() => {
 		isMounted = true;
@@ -117,7 +116,7 @@
 			</div>
 
 			<!-- TODO: implement debounced submission -->
-			<form method="POST" use:enhance class="flex flex-col gap-y-4" on:submit={handleSubmit}>
+			<form method="POST" use:enhance class="flex flex-col gap-y-4" onsubmit={handleSubmit}>
 				<TextField
 					label="Password"
 					required
@@ -131,8 +130,8 @@
 			</form>
 		</ArticleCard>
 
-		{#each jokeArticles.slice(0, 2) as article}
-			<Article {...article} fake />
+		{#each jokeArticles.slice(0, 2) as article, index}
+			<Article {...article} fake={true} {index} />
 		{/each}
 	</main>
 {/if}
