@@ -14,7 +14,7 @@ export const DELETE: RequestHandler = async ({ request, cookies, url }) => {
 
 	const [matchesFormat, amount, period] = older_than.match(/^([0-9]+)([hdmy])$/) ?? [];
 
-	if (!isAuthorized({ request, cookies })) {
+	if (!(await isAuthorized({ request, cookies }))) {
 		return new Response(undefined, { status: 401, statusText: 'Not authorized' });
 	} else if (!matchesFormat) {
 		return new Response(undefined, {

@@ -5,7 +5,7 @@ import { type RequestHandler } from '@sveltejs/kit';
 export const GET: RequestHandler = async ({ params, request, cookies }) => {
 	const { articleId } = params;
 
-	if (!isAuthorized({ request, cookies })) {
+	if (!(await isAuthorized({ request, cookies }))) {
 		return new Response(undefined, { status: 401, statusText: 'not authorized' });
 	}
 

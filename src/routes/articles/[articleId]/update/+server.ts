@@ -6,7 +6,7 @@ export const PATCH: RequestHandler = async ({ request, params, cookies }) => {
 	const { articleId } = params;
 	const { article } = await request.json();
 
-	if (!isAuthorized({ request, cookies })) {
+	if (!(await isAuthorized({ request, cookies }))) {
 		return new Response(undefined, { status: 401, statusText: 'not authorized' });
 	}
 
